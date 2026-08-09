@@ -262,6 +262,21 @@ header .logo { display: flex; align-items: center; z-index: 1001; pointer-events
 .home-hero .btn-outline { color: #fff; border-color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,.4); }
 .home-hero .btn-outline:hover { background: #fff; color: var(--charcoal); }
 
+/* Services hero */
+.services-hero { min-height: 85vh; }
+.services-hero .hero-content {
+  background: rgba(31,41,30,.55);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 24px;
+  padding: 3rem 2.5rem;
+  box-shadow: 0 20px 60px rgba(0,0,0,.25);
+}
+.services-hero .section-label { color: #fff !important; text-shadow: 0 1px 4px rgba(0,0,0,.5); }
+.services-hero h1 { background: none; color: #fff; -webkit-text-fill-color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,.45); }
+.services-hero h1 span { color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,.45); }
+.services-hero p { color: #fff; opacity: 1; text-shadow: 0 1px 6px rgba(0,0,0,.55); }
+
 /* Floating blobs */
 .blob {
   position: absolute; border-radius: 50%; filter: blur(80px); opacity: .55;
