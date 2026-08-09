@@ -88,6 +88,8 @@ header.scrolled nav {
 
 .logo i { color: var(--teal); width: 26px; height: 26px; }
 
+.header-logo { height: clamp(72px, 14vw, 120px); width: auto; max-width: 280px; object-fit: contain; display: block; }
+
 .nav-links {
   display: flex; gap: .35rem; list-style: none;
   font-size: .95rem; font-weight: 500;
