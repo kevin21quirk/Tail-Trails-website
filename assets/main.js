@@ -124,6 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
       hls.on(Hls.Events.MANIFEST_PARSED, () => { video.play(); });
     } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
       video.src = src;
+      video.play();
     }
   });
 });
