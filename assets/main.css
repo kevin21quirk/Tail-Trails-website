@@ -329,7 +329,7 @@ header .logo { display: flex; align-items: center; z-index: 1001; pointer-events
   flex-direction: column;
   align-items: center;
   z-index: 10;
-  animation: pawFloat 2.6s ease-out forwards;
+  animation: pawFloat 2.6s ease-out forwards, pawBob 1.4s ease-in-out 2.6s infinite;
 }
 
 .paw-float .paw-arrow {
@@ -349,6 +349,11 @@ header .logo { display: flex; align-items: center; z-index: 1001; pointer-events
   0% { transform: translate(-250%, -180%) rotate(-30deg) scale(0.4); opacity: 0; }
   70% { transform: translate(-10px, -10px) rotate(10deg) scale(1.15); opacity: 1; }
   100% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 1; }
+}
+
+@keyframes pawBob {
+  0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+  50% { transform: translateY(-12px) rotate(-2deg) scale(1.05); }
 }
 
 /* Floating blobs */
