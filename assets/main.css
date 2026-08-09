@@ -573,6 +573,8 @@ footer { padding: 4rem 5vw 2rem; background: var(--charcoal); color: #b7c1c9; }
 
 footer .logo { color: var(--white); }
 
+.footer-logo { display: block; width: clamp(100px, 18vw, 160px); height: auto; margin-bottom: 1rem; border-radius: 50%; box-shadow: 0 10px 25px rgba(0,0,0,.1); }
+
 footer a { color: #b7c1c9; transition: color .2s; }
 footer a:hover { color: var(--mint); }
 
