@@ -76,6 +76,16 @@ header.scrolled nav {
 
 .logo span { color: var(--mustard); }
 
+.logo .logo-tails { color: #3a5f20; }
+.logo .logo-amp {
+  background: linear-gradient(90deg, #3a5f20, #b87333);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.logo .logo-trails { color: #b87333; }
+
 .logo i { color: var(--teal); width: 26px; height: 26px; }
 
 .nav-links {
