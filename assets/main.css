@@ -325,6 +325,10 @@ section { padding: 6rem 5vw; position: relative; }
 .video-section .section-sub { color: #fff; opacity: .95; text-shadow: 0 1px 6px rgba(0,0,0,.55); }
 .video-section h3 { color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,.4); }
 .video-section p { color: #fff; text-shadow: 0 1px 5px rgba(0,0,0,.45); }
+.video-section .feature-list { color: #fff; }
+.video-section .feature-list i { color: #fff; filter: drop-shadow(0 2px 4px rgba(0,0,0,.4)); }
+.video-section .feature-list strong { color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,.45); }
+.video-section .feature-list div { text-shadow: 0 1px 5px rgba(0,0,0,.45); }
 
 /* Feature list */
 .feature-list { list-style: none; display: grid; gap: 1.4rem; margin-top: 2.4rem; }
