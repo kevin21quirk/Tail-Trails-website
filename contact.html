@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact | Tail Trails</title>
+  <meta name="description" content="Book a walk or day care with Tail Trails. Call or message Alyssia on +44 76 2435 4396." />
+  <link rel="stylesheet" href="assets/main.css" />
+</head>
+<body>
+  <header>
+    <nav aria-label="Main navigation">
+      <a href="index.html" class="logo"><i data-lucide="paw-print"></i> Tail <span>Trails</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="contact.html" class="active">Contact</a></li>
+      </ul>
+      <button class="hamburger" aria-label="Open menu"><i data-lucide="menu"></i></button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <img src="Public/isla%20millenium%20oak.jpeg" alt="Alyssia's dog Isla at the Millennium Oak" class="parallax" />
+      <div class="hero-content reveal" style="text-align:center; margin:0 auto">
+        <span class="section-label" style="color:var(--mint)">Get started</span>
+        <h1>Contact <span>Let's plan your dog's day</span></h1>
+        <p>Call, message or fill in the form below. I'll get back to you as soon as possible.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-wrap contact-grid">
+        <div class="reveal">
+          <span class="section-label">Say hello</span>
+          <h2 class="section-title" style="margin-bottom:1rem">Book a free meet & greet</h2>
+          <p class="section-sub" style="margin-bottom:2rem">Tell me a little about your dog, the days you need and anything I should know. There's no pressure &mdash; it's just a friendly chat to start.</p>
+
+          <p style="font-weight:600; color:var(--teal-dark); margin-bottom:.2rem">Phone / WhatsApp</p>
+          <div class="big-phone"><a href="tel:+447624354396">+44 76 2435 4396</a></div>
+
+          <p style="font-weight:600; color:var(--teal-dark); margin-bottom:.2rem">Email</p>
+          <p style="margin-bottom:1.5rem"><a href="mailto:hello@tailtrails.co.uk?subject=Dog%20walking%20enquiry" style="color:var(--charcoal); text-decoration:underline; text-underline-offset:4px">hello@tailtrails.co.uk</a></p>
+
+          <p style="font-weight:600; color:var(--teal-dark); margin-bottom:.2rem">Area</p>
+          <p style="color:#58646e">Local on-foot dog walking and day care in Douglas, Isle of Man.</p>
+
+          <div style="margin-top:2rem; display:flex; gap:1rem; flex-wrap:wrap">
+            <a href="tel:+447624354396" class="btn btn-primary"><i data-lucide="phone"></i> Call now</a>
+            <a href="https://wa.me/447624354396" class="btn btn-outline" target="_blank" rel="noopener"><i data-lucide="message-circle"></i> WhatsApp</a>
+          </div>
+        </div>
+
+        <form class="reveal delay-1" style="background:var(--white); padding:2rem; border-radius:var(--radius); box-shadow:var(--shadow)">
+          <h3 style="font-size:1.6rem; margin-bottom:1.2rem; font-family:'Playfair Display',serif">Send a message</h3>
+          <label for="name" style="font-size:.85rem; font-weight:600; color:var(--teal-dark)">Your name</label>
+          <input type="text" id="name" name="name" placeholder="Your name" required />
+
+          <label for="dog" style="font-size:.85rem; font-weight:600; color:var(--teal-dark)">Dog's name & breed</label>
+          <input type="text" id="dog" name="dog" placeholder="e.g. Luna, Cocker Spaniel" required />
+
+          <label for="contact" style="font-size:.85rem; font-weight:600; color:var(--teal-dark)">Phone or email</label>
+          <input type="text" id="contact" name="contact" placeholder="Best way to reach you" required />
+
+          <label for="service" style="font-size:.85rem; font-weight:600; color:var(--teal-dark)">Service</label>
+          <select id="service" name="service" required>
+            <option value="">Choose a service</option>
+            <option value="walk">Dog walking</option>
+            <option value="daycare">Day care</option>
+            <option value="feeding">Feeding / home visit</option>
+            <option value="combined">Combined day care & walk</option>
+          </select>
+
+          <label for="message" style="font-size:.85rem; font-weight:600; color:var(--teal-dark)">Message</label>
+          <textarea id="message" name="message" rows="4" placeholder="Tell me about your dog and the days you need..."></textarea>
+
+          <button type="submit" class="btn btn-primary"><i data-lucide="send"></i> Send enquiry</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="video-banner" style="height:40vh">
+      <video autoplay muted loop playsinline>
+        <source src="https://assets.mixkit.co/videos/download/mixkit-family-playing-with-a-dog-in-the-garden-23072-medium.mp4" type="video/mp4" />
+      </video>
+      <h2 class="reveal">Looking forward to meeting you both</h2>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <a href="index.html" class="logo"><i data-lucide="paw-print"></i> Tail <span>Trails</span></a>
+        <p style="margin-top:1rem; max-width:360px">Friendly, local dog walking and day care in Douglas, Isle of Man. Run by Alyssia &mdash; born to love dogs.</p>
+        <div class="socials">
+          <a href="#" aria-label="Instagram"><i data-lucide="instagram"></i></a>
+          <a href="#" aria-label="Facebook"><i data-lucide="facebook"></i></a>
+          <a href="tel:+447624354396" aria-label="Phone"><i data-lucide="phone"></i></a>
+        </div>
+      </div>
+      <div>
+        <h4 style="color:#fff; margin-bottom:1rem">Quick links</h4>
+        <ul style="list-style:none; display:grid; gap:.6rem">
+          <li><a href="services.html">Services</a></li>
+          <li><a href="about.html">About Alyssia</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="contact.html">Contact & Booking</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="bottom">&copy; <span id="year"></span> Tail Trails. All rights reserved.</div>
+  </footer>
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="assets/main.js"></script>
+</body>
+</html>
