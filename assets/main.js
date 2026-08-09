@@ -112,4 +112,20 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
+
+  // HLS hero video
+  const heroVideo = document.querySelector('.hero-video');
+  if (heroVideo) {
+    const heroSource = heroVideo.querySelector('source')?.src;
+    if (heroSource) {
+      if (typeof Hls !== 'undefined' && Hls.isSupported()) {
+        const hls = new Hls();
+        hls.loadSource(heroSource);
+        hls.attachMedia(heroVideo);
+        hls.on(Hls.Events.MANIFEST_PARSED, () => { heroVideo.play(); });
+      } else if (heroVideo.canPlayType('application/vnd.apple.mpegurl')) {
+        heroVideo.src = heroSource;
+      }
+    }
+  }
 });

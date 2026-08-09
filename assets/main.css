@@ -26,7 +26,6 @@ body {
   color: var(--charcoal);
   overflow-x: hidden;
   line-height: 1.6;
-  padding-top: clamp(150px, 17vw, 190px);
 }
 
 h1, h2, h3, h4 { font-family: 'Playfair Display', serif; font-weight: 700; line-height: 1.1; }
@@ -42,7 +41,7 @@ header {
   position: fixed;
   inset: 0 0 auto 0;
   z-index: 1000;
-  padding: 1.1rem 5vw;
+  padding: clamp(120px, 16vw, 170px) 5vw 1.1rem;
   pointer-events: none;
   transition: padding .35s ease;
 }
@@ -96,9 +95,9 @@ header.scrolled .header-logo { height: clamp(44px, 8vw, 56px); max-width: 180px;
 
 .logo i { color: var(--teal); width: 26px; height: 26px; }
 
-header .logo { position: absolute; left: 1.6rem; top: -18px; z-index: 1001; transition: all .35s ease; }
+header .logo { position: absolute; left: 1.6rem; top: 0.5rem; transform: translateY(calc(-100% - 0.5rem)); z-index: 1001; transition: all .35s ease; }
 
-.header-logo { height: clamp(90px, 16vw, 150px); width: auto; max-width: 320px; object-fit: contain; display: block; transition: all .35s ease; }
+.header-logo { height: clamp(90px, 15vw, 140px); width: auto; max-width: 320px; object-fit: contain; display: block; transition: all .35s ease; }
 
 .nav-links {
   display: flex; gap: .35rem; list-style: none;
@@ -157,7 +156,7 @@ header .logo { position: absolute; left: 1.6rem; top: -18px; z-index: 1001; tran
   align-items: center;
   justify-content: center;
   gap: 3rem;
-  padding: 9rem 8vw 5rem;
+  padding: clamp(180px, 24vw, 270px) 8vw 5rem;
   overflow: hidden;
   background:
     radial-gradient(circle at 80% 20%, color-mix(in srgb, var(--mint) 45%, transparent) 0%, transparent 45%),
