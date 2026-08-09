@@ -23,11 +23,14 @@
   </header>
 
   <main>
-    <section class="hero">
-      <img src="Public/walking%20three%20dogs.jpeg" alt="Alyssia walking three dogs" class="parallax" />
+    <section class="hero about-hero">
+      <video class="hero-video" autoplay muted loop playsinline>
+        <source src="https://stream.mux.com/OiYrulN6OvwzIhl6tqlc024RaG4m38cgEvqR1xc014OHA.m3u8" type="application/x-mpegURL" />
+      </video>
+      <div class="hero-overlay"></div>
       <div class="hero-content reveal" style="text-align:center; margin:0 auto">
-        <span class="section-label" style="color:var(--mint)">Meet the walker</span>
-        <h1>About <span>Alyssia & Tails & Trails</span></h1>
+        <span class="section-label">Meet the walker</span>
+        <h1>About <span>Alyssia &amp; Tails &amp; Trails</span></h1>
         <p>Dogs have always been at the centre of my world. Now I've made caring for them my business.</p>
       </div>
     </section>
@@ -116,6 +119,7 @@
   </footer>
 
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1.4.0/dist/hls.min.js"></script>
   <script src="assets/main.js"></script>
 </body>
 </html>
