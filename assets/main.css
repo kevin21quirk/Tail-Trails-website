@@ -320,6 +320,23 @@ header .logo { display: flex; align-items: center; z-index: 1001; pointer-events
 
 .services-hero h1, .about-hero h1, .gallery-hero h1, .contact-hero h1 { text-align: center !important; }
 
+/* Floating paw */
+.paw-float {
+  position: absolute;
+  left: -80px;
+  bottom: 1.1rem;
+  width: 70px;
+  z-index: 10;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,.4));
+  animation: pawFloat 2.6s ease-out forwards;
+}
+
+@keyframes pawFloat {
+  0% { transform: translate(-250%, -180%) rotate(-30deg) scale(0.4); opacity: 0; }
+  70% { transform: translate(-10px, -10px) rotate(10deg) scale(1.15); opacity: 1; }
+  100% { transform: translate(0, 0) rotate(15deg) scale(1); opacity: 1; }
+}
+
 /* Floating blobs */
 .blob {
   position: absolute; border-radius: 50%; filter: blur(80px); opacity: .55;
