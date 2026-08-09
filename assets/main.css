@@ -41,9 +41,15 @@ header {
   position: fixed;
   inset: 0 0 auto 0;
   z-index: 1000;
-  padding: clamp(120px, 16vw, 170px) 5vw 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: .75rem 5vw;
+  background: rgba(246,244,240,.92);
+  backdrop-filter: blur(10px) saturate(140%);
+  box-shadow: 0 8px 30px rgba(59,47,47,.08);
   pointer-events: none;
-  transition: padding .35s ease;
 }
 
 header > * { pointer-events: auto; }
@@ -53,9 +59,9 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  max-width: var(--max);
-  margin: 0 auto;
-  padding: .8rem 1.6rem;
+  max-width: none;
+  margin: 0;
+  padding: .55rem 1.2rem;
   background: var(--glass);
   backdrop-filter: blur(20px) saturate(160%);
   border: 1px solid rgba(255,255,255,.55);
@@ -64,16 +70,9 @@ nav {
   transition: all .35s ease;
 }
 
-header.scrolled { padding: 1.1rem 5vw; }
+header.scrolled { padding: .5rem 5vw; }
 
-header.scrolled nav {
-  background: rgba(246,244,240,.92);
-  box-shadow: 0 14px 34px rgba(59,47,47,.14);
-  padding: .65rem 1.4rem;
-}
-
-header.scrolled .logo { top: 50%; transform: translateY(-50%); left: 1.4rem; }
-header.scrolled .header-logo { height: clamp(44px, 8vw, 56px); max-width: 180px; }
+header.scrolled .header-logo { height: clamp(44px, 7vw, 52px); max-width: 150px; }
 
 .logo {
   display: flex; align-items: center; gap: .75rem;
@@ -95,13 +94,12 @@ header.scrolled .header-logo { height: clamp(44px, 8vw, 56px); max-width: 180px;
 
 .logo i { color: var(--teal); width: 26px; height: 26px; }
 
-header .logo { position: absolute; left: 1.6rem; top: 0.5rem; transform: translateY(calc(-100% - 0.5rem)); z-index: 1001; transition: all .35s ease; }
+header .logo { display: flex; align-items: center; z-index: 1001; pointer-events: auto; }
 
-.header-logo { height: clamp(90px, 15vw, 140px); width: auto; max-width: 320px; object-fit: contain; display: block; transition: all .35s ease; }
+.header-logo { height: clamp(64px, 10vw, 100px); width: auto; max-width: 220px; object-fit: contain; display: block; filter: drop-shadow(0 4px 10px rgba(0,0,0,.2)); transition: all .35s ease; }
 
 .nav-links {
   display: flex; gap: .35rem; list-style: none;
-  margin-left: auto;
   font-size: .95rem; font-weight: 500;
 }
 
@@ -156,7 +154,7 @@ header .logo { position: absolute; left: 1.6rem; top: 0.5rem; transform: transla
   align-items: center;
   justify-content: center;
   gap: 3rem;
-  padding: clamp(180px, 24vw, 270px) 8vw 5rem;
+  padding: clamp(120px, 16vw, 170px) 8vw 5rem;
   overflow: hidden;
   background:
     radial-gradient(circle at 80% 20%, color-mix(in srgb, var(--mint) 45%, transparent) 0%, transparent 45%),
@@ -199,13 +197,13 @@ header .logo { position: absolute; left: 1.6rem; top: 0.5rem; transform: transla
   transition: none;
   animation: none;
   object-fit: cover;
-  z-index: 1;
+  z-index: 0;
   pointer-events: none;
-  opacity: .85;
+  opacity: 1;
 }
 
 .hero::before, .hero::after {
-  content: ''; position: absolute; border-radius: 50%; pointer-events: none; z-index: 0;
+  content: ''; position: absolute; border-radius: 50%; pointer-events: none; z-index: -1;
   animation: drift-orb 14s ease-in-out infinite alternate;
 }
 
@@ -218,6 +216,22 @@ header .logo { position: absolute; left: 1.6rem; top: 0.5rem; transform: transla
   width: 280px; height: 280px; background: var(--mustard); filter: blur(70px); opacity: .28;
   bottom: -40px; right: 25%; animation-delay: -5s;
 }
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(31,41,30,.60) 0%, rgba(31,41,30,.35) 60%, rgba(31,41,30,.15) 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.home-hero .hero-content { color: #fff; }
+.home-hero .section-label { color: #fff !important; }
+.home-hero h1 { background: linear-gradient(120deg, #fff, var(--mint)); }
+.home-hero h1 span { color: #fff; }
+.home-hero p { color: #fff; opacity: .95; }
+.home-hero .btn-outline { color: #fff; border-color: #fff; }
+.home-hero .btn-outline:hover { background: #fff; color: var(--charcoal); }
 
 .hero-content {
   position: relative;
