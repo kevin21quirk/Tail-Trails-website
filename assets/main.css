@@ -116,10 +116,14 @@ header .logo {
   filter:
     drop-shadow(0 2px 10px rgba(0,0,0,.70))
     drop-shadow(0 0 3px rgba(255,255,255,.20));
+  animation: logoGlow 3s ease-in-out infinite alternate;
+  transition: filter .35s ease;
+}
+
+body.home-page .header-logo {
   animation:
     logoEntrance 4.4s cubic-bezier(.22,1,.36,1) both,
     logoGlow 3s ease-in-out 4.4s infinite alternate;
-  transition: filter .35s ease;
 }
 
 @keyframes logoEntrance {
@@ -380,7 +384,7 @@ header .logo {
   flex-direction: column;
   align-items: center;
   z-index: 10;
-  animation: pawFloat 2.6s ease-out forwards, pawBob 1.4s ease-in-out 2.6s infinite;
+  animation: pawFloat 2.6s ease-out 4.4s both, pawBob 1.4s ease-in-out 7s infinite;
 }
 
 .paw-float .paw-arrow {
@@ -887,20 +891,30 @@ footer a:hover { color: var(--mint); }
   }
   header.scrolled { padding: .45rem 4vw; }
   .header-logo { height: clamp(38px, 9vw, 56px); max-width: 130px; }
-  nav { padding: .35rem .8rem; gap: .6rem; background: rgba(10,18,10,.45); border-color: rgba(107,142,35,.28); box-shadow: none; }
+  nav { background: transparent !important; border: none !important; box-shadow: none !important; backdrop-filter: none !important; padding: 0 !important; }
 
-  /* Hamburger – white on dark background */
+  /* Hamburger – modern green pill */
   .hamburger {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    color: rgba(255,255,255,.92);
-    background: rgba(255,255,255,.14);
-    border: 1px solid rgba(255,255,255,.18);
+    gap: .45rem;
+    padding: .55rem 1.1rem;
+    width: auto;
+    height: auto;
+    border-radius: 999px;
+    color: #fff;
+    background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
+    border: 1px solid rgba(107,142,35,.45);
+    box-shadow: 0 6px 22px rgba(107,142,35,.45), inset 0 1px 0 rgba(255,255,255,.12);
     z-index: 1001;
+  }
+  .hamburger-label {
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    line-height: 1;
   }
 
   /* Nav drawer */

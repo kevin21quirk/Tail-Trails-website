@@ -1,24 +1,28 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // ── Logo intro overlay ────────────────────────────────────────────
-  // Covers the hero video with a plain dark neutral while the logo
-  // flies in; fades out and starts the video once the logo settles.
-  const INTRO_MS = 4400; // must match CSS logoEntrance duration
-  const overlay  = Object.assign(document.createElement('div'), { id: 'intro-overlay' });
-  overlay.style.cssText =
-    'position:fixed;inset:0;z-index:999;' +
-    'background:#0b190b;' +
-    'pointer-events:none;' +
-    'transition:opacity 900ms ease';
-  document.body.appendChild(overlay);
+  // ── Logo intro overlay (home page only) ───────────────────────────
+  const isHome   = !!document.querySelector('.home-hero');
+  const INTRO_MS = isHome ? 4400 : 0; // must match CSS logoEntrance duration
 
-  // Suppress any autoplay on hero videos until overlay fades
-  document.querySelectorAll('.hero-video').forEach(v => { v.autoplay = false; v.pause(); });
+  if (isHome) {
+    document.body.classList.add('home-page');
 
-  setTimeout(() => {
-    overlay.style.opacity = '0';
-    document.querySelectorAll('.hero-video').forEach(v => { try { v.play(); } catch (e) {} });
-    overlay.addEventListener('transitionend', () => overlay.remove(), { once: true });
-  }, INTRO_MS);
+    const overlay = Object.assign(document.createElement('div'), { id: 'intro-overlay' });
+    overlay.style.cssText =
+      'position:fixed;inset:0;z-index:999;' +
+      'background:#0b190b;' +
+      'pointer-events:none;' +
+      'transition:opacity 900ms ease';
+    document.body.appendChild(overlay);
+
+    // Suppress autoplay on hero videos until overlay fades
+    document.querySelectorAll('.hero-video').forEach(v => { v.autoplay = false; v.pause(); });
+
+    setTimeout(() => {
+      overlay.style.opacity = '0';
+      document.querySelectorAll('.hero-video').forEach(v => { try { v.play(); } catch (e) {} });
+      overlay.addEventListener('transitionend', () => overlay.remove(), { once: true });
+    }, INTRO_MS);
+  }
   // ─────────────────────────────────────────────────────────────────
 
   // Icons
@@ -28,10 +32,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const burger = document.querySelector('.hamburger');
   const nav = document.querySelector('.nav-links');
   if (burger && nav) {
+    // Modern pill label (hidden on desktop via hamburger display:none)
+    const burgerLabel = document.createElement('span');
+    burgerLabel.className = 'hamburger-label';
+    burgerLabel.textContent = 'MENU';
+    burger.appendChild(burgerLabel);
+
     burger.addEventListener('click', () => {
       nav.classList.toggle('open');
+      const isOpen = nav.classList.contains('open');
       const icon = burger.querySelector('i');
-      if (icon) icon.setAttribute('data-lucide', nav.classList.contains('open') ? 'x' : 'menu');
+      if (icon) icon.setAttribute('data-lucide', isOpen ? 'x' : 'menu');
+      burgerLabel.textContent = isOpen ? 'CLOSE' : 'MENU';
       if (window.lucide) lucide.createIcons();
     });
   }
