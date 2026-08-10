@@ -11,16 +11,26 @@ document.addEventListener('DOMContentLoaded', () => {
       'position:fixed;inset:0;z-index:999;' +
       'background:#0b190b;' +
       'pointer-events:none;' +
-      'transition:opacity 400ms ease';
+      'transition:opacity 200ms ease';
     document.body.appendChild(overlay);
 
-    // Start fade FADE_MS before logo settles so the overlay is fully
-    // transparent at the exact moment the animation ends.
-    const FADE_MS = 400;
-    setTimeout(() => {
+    // Fade triggered by the actual animationend event on the logo
+    // so it fires the exact instant the entrance animation finishes.
+    let faded = false;
+    const doFade = () => {
+      if (faded) return;
+      faded = true;
       overlay.style.opacity = '0';
       overlay.addEventListener('transitionend', () => overlay.remove(), { once: true });
-    }, INTRO_MS - FADE_MS);
+    };
+    const logoEl = document.querySelector('.header-logo');
+    if (logoEl) {
+      logoEl.addEventListener('animationend', (e) => {
+        if (e.animationName === 'logoEntrance') doFade();
+      });
+    }
+    // Fallback in case animationend doesn't fire
+    setTimeout(doFade, INTRO_MS + 200);
   }
   // ─────────────────────────────────────────────────────────────────
 
