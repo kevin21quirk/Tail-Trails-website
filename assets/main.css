@@ -1038,7 +1038,7 @@ footer a:hover { color: var(--mint); }
     gap: .6rem;
   }
   .fan-panel { flex: none; height: 160px; }
-  .fan-panel.open { height: 320px; }
+  .fan-panel.open { flex: none; height: 320px; }
   .fan-panel .panel-label {
     writing-mode: horizontal-tb;
     text-orientation: unset;
