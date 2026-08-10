@@ -208,10 +208,7 @@ body.home-page .header-logo {
   gap: 3rem;
   padding: clamp(120px, 16vw, 170px) 8vw 5rem;
   overflow: hidden;
-  background:
-    radial-gradient(circle at 80% 20%, color-mix(in srgb, var(--mint) 45%, transparent) 0%, transparent 45%),
-    radial-gradient(circle at 20% 90%, color-mix(in srgb, var(--mustard) 22%, transparent) 0%, transparent 40%),
-    var(--sand);
+  background: #0a1a0a; /* dark fallback so any pre-video flash is invisible */
 }
 
 .home-hero { min-height: 100vh; }
@@ -249,6 +246,7 @@ body.home-page .header-logo {
   transition: none;
   animation: none;
   object-fit: cover;
+  background: #0a1a0a; /* covers gap between poster load and first video frame */
   z-index: 0;
   pointer-events: none;
   opacity: 1;
