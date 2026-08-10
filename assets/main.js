@@ -11,15 +11,13 @@ document.addEventListener('DOMContentLoaded', () => {
       'position:fixed;inset:0;z-index:999;' +
       'background:#0b190b;' +
       'pointer-events:none;' +
-      'transition:opacity 900ms ease';
+      'transition:opacity 400ms ease';
     document.body.appendChild(overlay);
 
-    // Suppress autoplay on hero videos until overlay fades
-    document.querySelectorAll('.hero-video').forEach(v => { v.autoplay = false; v.pause(); });
-
+    // Videos play immediately behind the overlay so they're already
+    // buffered and running when the overlay fades at logo-settle time.
     setTimeout(() => {
       overlay.style.opacity = '0';
-      document.querySelectorAll('.hero-video').forEach(v => { try { v.play(); } catch (e) {} });
       overlay.addEventListener('transitionend', () => overlay.remove(), { once: true });
     }, INTRO_MS);
   }
@@ -155,14 +153,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const hls = new Hls();
       hls.loadSource(src);
       hls.attachMedia(video);
-      hls.on(Hls.Events.MANIFEST_PARSED, () => {
-        const wait = Math.max(0, INTRO_MS - performance.now());
-        setTimeout(() => video.play(), wait);
-      });
+      hls.on(Hls.Events.MANIFEST_PARSED, () => { video.play(); });
     } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
       video.src = src;
-      const wait = Math.max(0, INTRO_MS - performance.now());
-      setTimeout(() => video.play(), wait);
+      video.play();
     }
   });
 });
