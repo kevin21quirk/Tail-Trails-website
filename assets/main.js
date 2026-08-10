@@ -11,11 +11,10 @@ document.addEventListener('DOMContentLoaded', () => {
       'position:fixed;inset:0;z-index:999;' +
       'background:#0b190b;' +
       'pointer-events:none;' +
-      'transition:opacity 200ms ease';
+      'opacity:0.9999;' +       // sub-1 forces browser to composite video beneath
+      'transition:opacity 600ms ease';
     document.body.appendChild(overlay);
 
-    // Fade triggered by the actual animationend event on the logo
-    // so it fires the exact instant the entrance animation finishes.
     let faded = false;
     const doFade = () => {
       if (faded) return;
@@ -23,13 +22,11 @@ document.addEventListener('DOMContentLoaded', () => {
       overlay.style.opacity = '0';
       overlay.addEventListener('transitionend', () => overlay.remove(), { once: true });
     };
-    const logoEl = document.querySelector('.header-logo');
-    if (logoEl) {
-      logoEl.addEventListener('animationend', (e) => {
-        if (e.animationName === 'logoEntrance') doFade();
-      });
-    }
-    // Fallback in case animationend doesn't fire
+
+    // Start fading when logo reaches centre of screen (48% keyframe ≈ 2112ms)
+    // 600ms fade → overlay fully gone at ~2700ms while logo still sweeps to corner
+    setTimeout(doFade, Math.round(INTRO_MS * 0.48));
+    // Fallback
     setTimeout(doFade, INTRO_MS + 200);
   }
   // ─────────────────────────────────────────────────────────────────
