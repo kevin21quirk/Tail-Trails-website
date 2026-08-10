@@ -1,4 +1,26 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // ── Logo intro overlay ────────────────────────────────────────────
+  // Covers the hero video with a plain dark neutral while the logo
+  // flies in; fades out and starts the video once the logo settles.
+  const INTRO_MS = 4400; // must match CSS logoEntrance duration
+  const overlay  = Object.assign(document.createElement('div'), { id: 'intro-overlay' });
+  overlay.style.cssText =
+    'position:fixed;inset:0;z-index:999;' +
+    'background:#0b190b;' +
+    'pointer-events:none;' +
+    'transition:opacity 900ms ease';
+  document.body.appendChild(overlay);
+
+  // Suppress any autoplay on hero videos until overlay fades
+  document.querySelectorAll('.hero-video').forEach(v => { v.autoplay = false; v.pause(); });
+
+  setTimeout(() => {
+    overlay.style.opacity = '0';
+    document.querySelectorAll('.hero-video').forEach(v => { try { v.play(); } catch (e) {} });
+    overlay.addEventListener('transitionend', () => overlay.remove(), { once: true });
+  }, INTRO_MS);
+  // ─────────────────────────────────────────────────────────────────
+
   // Icons
   if (window.lucide) lucide.createIcons();
 
@@ -113,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // HLS background videos
+  // HLS background videos – load immediately but defer play until intro ends
   document.querySelectorAll('video source[src*=".m3u8"]').forEach((source) => {
     const video = source.parentElement;
     const src = source.src;
@@ -121,10 +143,14 @@ document.addEventListener('DOMContentLoaded', () => {
       const hls = new Hls();
       hls.loadSource(src);
       hls.attachMedia(video);
-      hls.on(Hls.Events.MANIFEST_PARSED, () => { video.play(); });
+      hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        const wait = Math.max(0, INTRO_MS - performance.now());
+        setTimeout(() => video.play(), wait);
+      });
     } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
       video.src = src;
-      video.play();
+      const wait = Math.max(0, INTRO_MS - performance.now());
+      setTimeout(() => video.play(), wait);
     }
   });
 });
