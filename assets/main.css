@@ -113,26 +113,23 @@ header .logo {
   height: clamp(64px, 10vw, 100px); width: auto; max-width: 220px;
   object-fit: contain; display: block;
   filter:
-    drop-shadow(0 0 7px rgba(184,115,51,.6))
-    drop-shadow(0 0 18px rgba(184,115,51,.32))
-    drop-shadow(0 3px 8px rgba(0,0,0,.6));
-  animation: logoGlow 2.8s ease-in-out infinite alternate;
+    drop-shadow(0 2px 10px rgba(0,0,0,.70))
+    drop-shadow(0 0 3px rgba(255,255,255,.20));
+  animation: logoGlow 3s ease-in-out infinite alternate;
   transition: filter .35s ease;
 }
 
 @keyframes logoGlow {
   from {
     filter:
-      drop-shadow(0 0 4px rgba(184,115,51,.45))
-      drop-shadow(0 0 10px rgba(184,115,51,.22))
-      drop-shadow(0 3px 8px rgba(0,0,0,.55));
+      drop-shadow(0 2px 10px rgba(0,0,0,.65))
+      drop-shadow(0 0 2px rgba(255,255,255,.12));
   }
   to {
     filter:
-      drop-shadow(0 0 14px rgba(184,115,51,1))
-      drop-shadow(0 0 28px rgba(184,115,51,.6))
-      drop-shadow(0 0 5px rgba(255,200,80,.45))
-      drop-shadow(0 3px 10px rgba(0,0,0,.6));
+      drop-shadow(0 2px 12px rgba(0,0,0,.75))
+      drop-shadow(0 0 8px rgba(255,255,255,.30))
+      drop-shadow(0 0 14px rgba(184,115,51,.18));
   }
 }
 
