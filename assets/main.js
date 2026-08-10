@@ -14,12 +14,13 @@ document.addEventListener('DOMContentLoaded', () => {
       'transition:opacity 400ms ease';
     document.body.appendChild(overlay);
 
-    // Videos play immediately behind the overlay so they're already
-    // buffered and running when the overlay fades at logo-settle time.
+    // Start fade FADE_MS before logo settles so the overlay is fully
+    // transparent at the exact moment the animation ends.
+    const FADE_MS = 400;
     setTimeout(() => {
       overlay.style.opacity = '0';
       overlay.addEventListener('transitionend', () => overlay.remove(), { once: true });
-    }, INTRO_MS);
+    }, INTRO_MS - FADE_MS);
   }
   // ─────────────────────────────────────────────────────────────────
 
