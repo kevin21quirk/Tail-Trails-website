@@ -153,6 +153,50 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Contact form – send via API and show thank you popup
+  const contactForm = document.querySelector('.contact-form');
+  if (contactForm) {
+    const popup = document.getElementById('thank-you-popup');
+
+    contactForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = contactForm.querySelector('button[type="submit"]');
+      const originalHTML = btn.innerHTML;
+      btn.innerHTML = '<i data-lucide="loader-2"></i> Sending\u2026';
+      btn.disabled = true;
+      if (window.lucide) lucide.createIcons();
+
+      const data = Object.fromEntries(new FormData(contactForm));
+
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        const json = await res.json();
+        if (!res.ok) throw new Error(json.error || 'Something went wrong.');
+        contactForm.reset();
+        if (popup) popup.classList.add('active');
+      } catch (err) {
+        alert('Sorry, we could not send your message: ' + err.message);
+      } finally {
+        btn.innerHTML = originalHTML;
+        btn.disabled = false;
+        if (window.lucide) lucide.createIcons();
+      }
+    });
+
+    // Close popup on button click or backdrop click
+    if (popup) {
+      popup.addEventListener('click', (e) => {
+        if (e.target === popup || e.target.hasAttribute('data-close-popup')) {
+          popup.classList.remove('active');
+        }
+      });
+    }
+  }
+
   // HLS background videos – load immediately but defer play until intro ends
   document.querySelectorAll('video source[src*=".m3u8"]').forEach((source) => {
     const video = source.parentElement;

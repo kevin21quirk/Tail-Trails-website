@@ -46,7 +46,7 @@
           <div class="big-phone"><a href="tel:+447624354396">+44 76 2435 4396</a></div>
 
           <p style="font-weight:600; color:var(--teal-dark); margin-bottom:.2rem">Email</p>
-          <p style="margin-bottom:1.5rem"><a href="mailto:info@tailtrails.im?subject=Dog%20walking%20enquiry" style="color:var(--charcoal); text-decoration:underline; text-underline-offset:4px">info@tailtrails.im</a></p>
+          <p style="margin-bottom:1.5rem"><a href="mailto:Alyssia.k.quirk@gmail.com?subject=Dog%20walking%20enquiry" style="color:var(--charcoal); text-decoration:underline; text-underline-offset:4px">Alyssia.k.quirk@gmail.com</a></p>
 
           <p style="font-weight:600; color:var(--teal-dark); margin-bottom:.2rem">Area</p>
           <p style="color:#58646e">Local on-foot dog walking and day care in Douglas, Isle of Man.</p>
@@ -57,7 +57,7 @@
           </div>
         </div>
 
-        <form class="reveal delay-1" style="background:var(--white); padding:2rem; border-radius:var(--radius); box-shadow:var(--shadow)">
+        <form class="contact-form reveal delay-1" style="background:var(--white); padding:2rem; border-radius:var(--radius); box-shadow:var(--shadow)">
           <h3 style="font-size:1.6rem; margin-bottom:1.2rem; font-family:'Playfair Display',serif">Send a message</h3>
           <label for="name" style="font-size:.85rem; font-weight:600; color:var(--teal-dark)">Your name</label>
           <input type="text" id="name" name="name" placeholder="Your name" required />
@@ -65,8 +65,11 @@
           <label for="dog" style="font-size:.85rem; font-weight:600; color:var(--teal-dark)">Dog's name & breed</label>
           <input type="text" id="dog" name="dog" placeholder="e.g. Luna, Cocker Spaniel" required />
 
-          <label for="contact" style="font-size:.85rem; font-weight:600; color:var(--teal-dark)">Phone or email</label>
-          <input type="text" id="contact" name="contact" placeholder="Best way to reach you" required />
+          <label for="email" style="font-size:.85rem; font-weight:600; color:var(--teal-dark)">Email address</label>
+          <input type="email" id="email" name="email" placeholder="your@email.com" required />
+
+          <label for="phone" style="font-size:.85rem; font-weight:600; color:var(--teal-dark)">Phone / WhatsApp <span style="font-weight:400; color:#999">(optional)</span></label>
+          <input type="tel" id="phone" name="phone" placeholder="+44 7xxx xxxxxx" />
 
           <label for="service" style="font-size:.85rem; font-weight:600; color:var(--teal-dark)">Service</label>
           <select id="service" name="service" required>
@@ -117,6 +120,16 @@
     </div>
     <div class="bottom">&copy; <span id="year"></span> Tails & Trails. All rights reserved.</div>
   </footer>
+
+  <!-- Thank you popup -->
+  <div id="thank-you-popup" class="popup-overlay" role="dialog" aria-modal="true" aria-labelledby="popup-title">
+    <div class="popup-card">
+      <span class="popup-paw">🐾</span>
+      <h3 id="popup-title">Message sent!</h3>
+      <p>Thanks for getting in touch. Alyssia will be in touch very soon to arrange your free meet &amp; greet.<br><br>A confirmation has been sent to your email.</p>
+      <button class="popup-close" data-close-popup>Sounds great!</button>
+    </div>
+  </div>
 
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/hls.js@1.4.0/dist/hls.min.js"></script>

@@ -1071,6 +1071,71 @@ footer a:hover { color: var(--mint); }
   .blob { display: none; }
 }
 
+/* ── Thank you popup ────────────────────────────────────────── */
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(11, 25, 11, 0.7);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+.popup-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+.popup-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 2.8rem 2.5rem 2.2rem;
+  max-width: 440px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 30px 80px rgba(11, 25, 11, 0.35);
+  transform: translateY(24px) scale(0.96);
+  transition: transform 0.4s cubic-bezier(.22,1,.36,1);
+}
+.popup-overlay.active .popup-card {
+  transform: translateY(0) scale(1);
+}
+.popup-paw {
+  font-size: 2.8rem;
+  margin-bottom: 1rem;
+  display: block;
+  animation: pawBob 1.4s ease-in-out infinite;
+}
+.popup-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.9rem;
+  color: var(--teal-dark);
+  margin-bottom: .6rem;
+}
+.popup-card p {
+  color: #58646e;
+  margin-bottom: 1.8rem;
+  line-height: 1.65;
+  font-size: .98rem;
+}
+.popup-close {
+  background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
+  color: var(--white);
+  border: none;
+  border-radius: 999px;
+  padding: .7rem 2.2rem;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: .03em;
+  box-shadow: 0 6px 22px rgba(45,90,39,.35);
+  transition: opacity .2s, transform .2s;
+}
+.popup-close:hover { opacity: .85; transform: translateY(-1px); }
+
 /* ── Small phones (≤ 480px) ──────────────────────────────── */
 @media (max-width: 480px) {
   .header-logo { height: 36px; max-width: 110px; }
