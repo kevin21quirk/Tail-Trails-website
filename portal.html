@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Client Portal | Tails & Trails</title>
+  <link rel="stylesheet" href="assets/main.css" />
+  <style>
+    .portal-page { min-height: 100vh; background: var(--sand); }
+    .portal-header { display: flex; align-items: center; justify-content: space-between; padding: 1.2rem 4vw; background: var(--white); box-shadow: 0 2px 14px rgba(0,0,0,.06); }
+    .portal-header .brand { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--teal-dark); }
+    .portal-header .right { display: flex; align-items: center; gap: 1rem; }
+    .portal-header button { font-size: .85rem; padding: .45rem 1rem; }
+    .portal-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; padding: 2rem 4vw 4rem; max-width: 1200px; margin: 0 auto; }
+    .portal-card { background: var(--white); border-radius: var(--radius); padding: 1.5rem; box-shadow: var(--shadow); }
+    .portal-card h3 { color: var(--teal-dark); margin-bottom: 1rem; font-family: 'Playfair Display', serif; }
+    .portal-card.full { grid-column: span 2; }
+    .empty { color: #888; font-size: .9rem; }
+    .media-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; }
+    .media-thumb { border-radius: 12px; overflow: hidden; aspect-ratio: 1; cursor: pointer; background: #e8e8e0; position: relative; }
+    .media-thumb img, .media-thumb video { width: 100%; height: 100%; object-fit: cover; }
+    .media-thumb span { position: absolute; bottom: 6px; right: 8px; background: rgba(0,0,0,.5); color: #fff; font-size: .7rem; padding: .15rem .4rem; border-radius: 6px; }
+    .booking, .invoice { display: flex; justify-content: space-between; align-items: center; padding: .8rem 0; border-bottom: 1px solid #eee; }
+    .booking:last-child, .invoice:last-child { border-bottom: none; }
+    .status { font-size: .75rem; font-weight: 700; text-transform: uppercase; padding: .2rem .6rem; border-radius: 999px; background: #e6efe4; color: var(--teal-dark); }
+    .status.unpaid { background: #fbe9e7; color: #c33; }
+    .invoice-amount { font-weight: 700; color: var(--teal-dark); }
+    @media (max-width: 760px) { .portal-grid { grid-template-columns: 1fr; } .portal-card.full { grid-column: span 1; } }
+  </style>
+</head>
+<body class="portal-page">
+  <header class="portal-header">
+    <div class="brand">Tails & Trails — Client Portal</div>
+    <div class="right">
+      <span id="greeting"></span>
+      <a href="login.html" class="btn btn-outline">Log out</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="portal-grid">
+      <div class="portal-card full">
+        <h3>Upcoming walks & care</h3>
+        <div id="bookings-list"><p class="empty">Loading…</p></div>
+      </div>
+
+      <div class="portal-card full">
+        <h3>Latest photos & videos</h3>
+        <div id="media-list" class="media-grid"><p class="empty">Loading…</p></div>
+      </div>
+
+      <div class="portal-card">
+        <h3>Invoices</h3>
+        <div id="invoices-list"><p class="empty">Loading…</p></div>
+      </div>
+
+      <div class="portal-card">
+        <h3>Receipts</h3>
+        <div id="receipts-list"><p class="empty">Loading…</p></div>
+      </div>
+    </div>
+  </main>
+
+  <div id="lightbox" class="popup-overlay" style="z-index:10000" onclick="this.classList.remove('active')">
+    <div class="popup-card" style="max-width: 90%; width: auto; min-width:300px" onclick="event.stopPropagation()">
+      <img id="lb-img" style="width:100%; border-radius:12px" src="" alt="" />
+      <video id="lb-vid" style="width:100%; border-radius:12px; display:none" controls></video>
+    </div>
+  </div>
+
+  <script>
+    async function load() {
+      const me = await fetch('/api/auth/me', { credentials: 'include' });
+      if (!me.ok) return window.location.href = '/login.html';
+      const { user } = await me.json();
+      document.getElementById('greeting').textContent = `Hi, ${user.name}`;
+
+      const dash = await fetch('/api/client/dashboard', { credentials: 'include' });
+      const data = await dash.json();
+      if (!dash.ok) throw new Error(data.error);
+
+      // Bookings
+      const bList = document.getElementById('bookings-list');
+      bList.innerHTML = data.upcoming.length ? data.upcoming.map(b => `
+        <div class="booking">
+          <div>
+            <strong>${new Date(b.booking_date).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'long' })}</strong>
+            ${b.start_time ? `&nbsp;·&nbsp;${b.start_time.slice(0,5)}` : ''}
+            <div style="font-size:.85rem;color:#666">${b.service.replace(/\b\w/g, l => l.toUpperCase())}${b.notes ? ' · ' + b.notes : ''}</div>
+          </div>
+          <span class="status">${b.status}</span>
+        </div>
+      `).join('') : '<p class="empty">No upcoming bookings yet.</p>';
+
+      // Media
+      const mediaRes = await fetch('/api/client/media', { credentials: 'include' });
+      const mediaData = await mediaRes.json();
+      const mList = document.getElementById('media-list');
+      mList.innerHTML = (mediaData.media || []).length ? (mediaData.media || []).map(m => `
+        <div class="media-thumb" data-url="${m.url}" data-type="${m.type}">
+          ${m.type === 'video' ? `
+            <video src="${m.url}" preload="metadata" muted></video>
+            <span>▶</span>
+          ` : `<img src="${m.url}" alt="${m.caption || m.filename}" />`}
+        </div>
+      `).join('') : '<p class="empty">No media uploaded yet.</p>';
+
+      document.querySelectorAll('.media-thumb').forEach(thumb => {
+        thumb.addEventListener('click', () => {
+          const url = thumb.dataset.url;
+          const type = thumb.dataset.type;
+          const lb = document.getElementById('lightbox');
+          const img = document.getElementById('lb-img');
+          const vid = document.getElementById('lb-vid');
+          if (type === 'video') { img.style.display = 'none'; vid.style.display = 'block'; vid.src = url; }
+          else { img.style.display = 'block'; vid.style.display = 'none'; img.src = url; vid.pause(); }
+          lb.classList.add('active');
+        });
+      });
+
+      // Invoices
+      const iList = document.getElementById('invoices-list');
+      iList.innerHTML = data.invoices.length ? data.invoices.map(i => `
+        <div class="invoice">
+          <div>
+            <div style="font-weight:700">${new Date(i.created_at).toLocaleDateString('en-GB')}</div>
+            <div style="font-size:.85rem;color:#666">${i.description || 'Invoice'}</div>
+          </div>
+          <div style="text-align:right">
+            <div class="invoice-amount">£${Number(i.amount).toFixed(2)}</div>
+            <span class="status ${i.status}">${i.status}</span>
+          </div>
+        </div>
+      `).join('') : '<p class="empty">No invoices yet.</p>';
+
+      // Receipts
+      const rList = document.getElementById('receipts-list');
+      rList.innerHTML = data.receipts.length ? data.receipts.map(r => `
+        <div class="invoice">
+          <div>
+            <div style="font-weight:700">${new Date(r.created_at).toLocaleDateString('en-GB')}</div>
+            <div style="font-size:.85rem;color:#666">Payment received</div>
+          </div>
+          <div class="invoice-amount">£${Number(r.amount).toFixed(2)}</div>
+        </div>
+      `).join('') : '<p class="empty">No receipts yet.</p>';
+    }
+
+    load().catch(err => { console.error(err); alert('Could not load portal. Please log in again.'); });
+  </script>
+</body>
+</html>
