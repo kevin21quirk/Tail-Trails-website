@@ -27,7 +27,8 @@ module.exports = async function handler(req, res) {
     const media = await Promise.all(
       rows.map(async (m) => ({
         ...m,
-        url: await getPresignedDownloadUrl(m.s3_key, m.filename, 3600, 'inline'),
+        url:         await getPresignedDownloadUrl(m.s3_key, m.filename, 3600, 'inline'),
+        downloadUrl: await getPresignedDownloadUrl(m.s3_key, m.filename, 3600, 'attachment'),
       }))
     );
     return res.status(200).json({ media });
