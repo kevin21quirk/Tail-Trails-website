@@ -20,26 +20,26 @@ module.exports = async function handler(req, res) {
   try {
     if (req.method === 'GET') {
       const clients = await sql`
-        SELECT id, email, name, dog_name, phone, address, created_at
+        SELECT id, email, name, dog_name, dog_breed, phone, address, notes, created_at
         FROM users WHERE role = 'client' ORDER BY name
       `;
       return res.status(200).json({ clients });
     }
 
     if (req.method === 'POST') {
-      const { email, name, dog_name, phone, address, password } = req.body || {};
+      const { email, name, dog_name, dog_breed, phone, address, notes, password } = req.body || {};
       if (!email || !name || !password) return res.status(400).json({ error: 'Email, name and password required.' });
       const hash = await bcrypt.hash(password, 10);
       const result = await sql`
-        INSERT INTO users (email, password_hash, role, name, dog_name, phone, address)
-        VALUES (${email.toLowerCase().trim()}, ${hash}, 'client', ${name}, ${dog_name || null}, ${phone || null}, ${address || null})
-        RETURNING id, email, name, dog_name, phone, address, created_at
+        INSERT INTO users (email, password_hash, role, name, dog_name, dog_breed, phone, address, notes)
+        VALUES (${email.toLowerCase().trim()}, ${hash}, 'client', ${name}, ${dog_name || null}, ${dog_breed || null}, ${phone || null}, ${address || null}, ${notes || null})
+        RETURNING id, email, name, dog_name, dog_breed, phone, address, notes, created_at
       `;
       return res.status(201).json({ client: result[0] });
     }
 
     if (req.method === 'PATCH') {
-      const { id, email, name, dog_name, phone, address, password } = req.body || {};
+      const { id, email, name, dog_name, dog_breed, phone, address, notes, password } = req.body || {};
       if (!id) return res.status(400).json({ error: 'Client id required.' });
       const hash = password ? await bcrypt.hash(password, 10) : null;
       const result = await sql`
@@ -48,11 +48,13 @@ module.exports = async function handler(req, res) {
           email = ${email.toLowerCase().trim()},
           name = ${name},
           dog_name = ${dog_name || null},
+          dog_breed = ${dog_breed || null},
           phone = ${phone || null},
           address = ${address || null},
+          notes = ${notes || null},
           password_hash = COALESCE(${hash}, password_hash)
         WHERE id = ${id} AND role = 'client'
-        RETURNING id, email, name, dog_name, phone, address
+        RETURNING id, email, name, dog_name, dog_breed, phone, address, notes
       `;
       return res.status(200).json({ client: result[0] });
     }

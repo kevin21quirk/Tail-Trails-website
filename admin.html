@@ -6,138 +6,318 @@
   <title>Admin | Tails & Trails</title>
   <link rel="stylesheet" href="assets/main.css" />
   <style>
-    .admin-page { min-height: 100vh; background: var(--sand); }
-    .admin-header { display: flex; align-items: center; justify-content: space-between; padding: 1.2rem 4vw; background: var(--white); box-shadow: 0 2px 14px rgba(0,0,0,.06); position: sticky; top: 0; z-index: 100; }
-    .admin-header .brand { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--teal-dark); }
-    .tabs { display: flex; gap: .8rem; flex-wrap: wrap; }
-    .tab { background: transparent; border: 1px solid var(--teal); color: var(--teal-dark); padding: .5rem 1.2rem; border-radius: 999px; cursor: pointer; font-weight: 600; }
-    .tab.active { background: var(--teal); color: #fff; }
-    .admin-main { max-width: 1200px; margin: 0 auto; padding: 2rem 4vw 4rem; }
-    .panel { display: none; background: var(--white); border-radius: var(--radius); padding: 1.5rem; box-shadow: var(--shadow); margin-bottom: 1.5rem; }
-    .panel.active { display: block; }
-    .panel h2 { color: var(--teal-dark); font-family: 'Playfair Display', serif; margin-bottom: 1.2rem; }
-    .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; align-items: end; }
-    label { display: block; font-size: .85rem; font-weight: 600; color: var(--teal-dark); margin: 1rem 0 .4rem; }
-    input, select, textarea { width: 100%; padding: .7rem .9rem; border: 1px solid #d6e0d4; border-radius: 10px; font-size: 1rem; box-sizing: border-box; }
-    table { width: 100%; border-collapse: collapse; font-size: .95rem; }
-    th, td { text-align: left; padding: .7rem; border-bottom: 1px solid #eee; }
-    th { color: var(--teal-dark); font-weight: 700; }
-    .calendar { display: grid; grid-template-columns: repeat(7, 1fr); gap: .5rem; }
-    .cal-cell { background: #f3f6f2; border-radius: 10px; min-height: 110px; padding: .5rem; cursor: pointer; position: relative; }
-    .cal-cell.other { color: #aaa; background: #fafafa; }
-    .cal-cell .day { font-weight: 700; font-size: .85rem; color: var(--teal-dark); }
-    .cal-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--teal-dark); margin: 3px 2px 0 0; display: inline-block; }
-    .day-popup { position: fixed; inset: 0; background: rgba(11,25,11,.65); display: none; align-items: center; justify-content: center; z-index: 200; }
-    .day-popup.active { display: flex; }
-    .day-card { background: var(--white); border-radius: var(--radius); padding: 1.5rem; width: min(92%, 500px); max-height: 80vh; overflow: auto; }
-    .day-card h3 { margin-bottom: .8rem; color: var(--teal-dark); }
-    .dropzone { border: 2px dashed var(--teal); border-radius: 12px; padding: 2rem; text-align: center; color: var(--teal-dark); cursor: pointer; }
-    .dropzone input { display: none; }
+    body.admin-page { min-height:100vh; background:var(--sand); }
+    .admin-header { display:flex; align-items:center; justify-content:space-between; padding:1rem 3vw; background:var(--white); box-shadow:0 2px 14px rgba(0,0,0,.06); position:sticky; top:0; z-index:100; flex-wrap:wrap; gap:.6rem; }
+    .admin-header .brand { font-family:'Playfair Display',serif; font-size:1.35rem; color:var(--teal-dark); white-space:nowrap; }
+    .tabs { display:flex; gap:.5rem; flex-wrap:wrap; }
+    .tab { background:transparent; border:1px solid var(--teal); color:var(--teal-dark); padding:.4rem 1rem; border-radius:999px; cursor:pointer; font-weight:600; font-size:.88rem; text-decoration:none; }
+    .tab.active { background:var(--teal); color:#fff; border-color:var(--teal); }
+    .admin-main { max-width:1280px; margin:0 auto; padding:1.8rem 3vw 4rem; }
+    .panel { display:none; }
+    .panel.active { display:block; }
+    .card { background:var(--white); border-radius:var(--radius); padding:1.5rem; box-shadow:var(--shadow); margin-bottom:1.4rem; }
+    .card h2 { color:var(--teal-dark); font-family:'Playfair Display',serif; margin-bottom:1.2rem; font-size:1.4rem; }
+    .card h3 { color:var(--teal-dark); font-size:1.1rem; margin-bottom:1rem; }
+    .form-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:1rem; align-items:end; }
+    label { display:block; font-size:.83rem; font-weight:600; color:var(--teal-dark); margin:.9rem 0 .35rem; }
+    input,select,textarea { width:100%; padding:.65rem .9rem; border:1px solid #d6e0d4; border-radius:10px; font-size:.95rem; box-sizing:border-box; font-family:inherit; }
+    textarea { min-height:72px; resize:vertical; }
+    table { width:100%; border-collapse:collapse; font-size:.9rem; }
+    th,td { text-align:left; padding:.6rem .7rem; border-bottom:1px solid #eee; }
+    th { color:var(--teal-dark); font-weight:700; font-size:.82rem; text-transform:uppercase; letter-spacing:.04em; background:#f8faf7; }
+    tr:last-child td { border-bottom:none; }
+
+    /* Stats */
+    .stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:1rem; margin-bottom:1.4rem; }
+    .stat-card { background:var(--white); border-radius:var(--radius); padding:1.3rem 1.5rem; box-shadow:var(--shadow); border-left:4px solid var(--teal-dark); }
+    .stat-val { font-size:2rem; font-weight:700; color:var(--teal-dark); font-family:'Playfair Display',serif; line-height:1; }
+    .stat-lbl { font-size:.8rem; color:#58646e; margin-top:.35rem; }
+
+    /* Badges */
+    .badge { display:inline-block; font-size:.7rem; font-weight:700; text-transform:uppercase; padding:.2rem .55rem; border-radius:999px; letter-spacing:.03em; }
+    .badge.confirmed { background:#e6efe4; color:#2d5a27; }
+    .badge.completed { background:#eee; color:#555; }
+    .badge.cancelled { background:#fbe9e7; color:#c33; }
+    .badge.unpaid { background:#fef3cd; color:#856404; }
+    .badge.paid { background:#e6efe4; color:#2d5a27; }
+
+    /* Buttons */
+    .btn-sm { padding:.28rem .65rem; font-size:.78rem; border-radius:7px; }
+    .btn-danger { background:#fbe9e7; color:#c33; border:1px solid #f5c6c6; cursor:pointer; }
+    .btn-success { background:#e6efe4; color:#2d5a27; border:1px solid #b2d4ae; cursor:pointer; }
+    .btn-warn { background:#fef3cd; color:#856404; border:1px solid #f5dfa5; cursor:pointer; }
+    .act { display:flex; gap:.3rem; align-items:center; flex-wrap:wrap; }
+
+    /* Calendar */
+    .cal-week-labels { display:grid; grid-template-columns:repeat(7,1fr); gap:.4rem; margin-bottom:.3rem; }
+    .cal-week-labels span { text-align:center; font-size:.75rem; font-weight:700; color:var(--teal-dark); text-transform:uppercase; }
+    .calendar { display:grid; grid-template-columns:repeat(7,1fr); gap:.4rem; }
+    .cal-cell { background:#f3f6f2; border-radius:10px; min-height:100px; padding:.5rem; cursor:pointer; transition:background .15s; }
+    .cal-cell:hover { background:#e8f0e6; }
+    .cal-cell.other { color:#bbb; background:#fafafa; pointer-events:none; }
+    .cal-cell.today { border:2px solid var(--teal-dark); }
+    .cal-cell .day { font-weight:700; font-size:.85rem; color:var(--teal-dark); margin-bottom:.3rem; }
+    .cal-cell.other .day { color:#ccc; }
+    .cal-dot { width:7px; height:7px; border-radius:50%; margin:2px 1px; display:inline-block; }
+    .cal-dot.confirmed { background:#2d5a27; }
+    .cal-dot.completed { background:#999; }
+    .cal-dot.cancelled { background:#c33; }
+    .cal-name { font-size:.68rem; color:#555; display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; line-height:1.3; }
+
+    /* Day popup */
+    .day-popup { position:fixed; inset:0; background:rgba(11,25,11,.65); display:none; align-items:center; justify-content:center; z-index:500; }
+    .day-popup.active { display:flex; }
+    .day-card { background:var(--white); border-radius:var(--radius); padding:1.6rem; width:min(95%,560px); max-height:85vh; overflow-y:auto; }
+    .day-card h3 { color:var(--teal-dark); font-family:'Playfair Display',serif; margin-bottom:1rem; }
+    .day-booking { padding:.65rem 0; border-bottom:1px solid #eee; display:flex; justify-content:space-between; align-items:flex-start; gap:.5rem; }
+    .day-booking:last-of-type { border:none; }
+
+    /* Edit modal */
+    .modal-overlay { position:fixed; inset:0; background:rgba(11,25,11,.65); z-index:10000; display:none; align-items:center; justify-content:center; }
+    .modal-overlay.active { display:flex; }
+    .modal-card { background:var(--white); border-radius:var(--radius); padding:2rem; width:min(95%,660px); max-height:90vh; overflow-y:auto; }
+    .modal-card h3 { color:var(--teal-dark); font-family:'Playfair Display',serif; font-size:1.4rem; margin-bottom:1rem; }
+
+    /* Dropzone */
+    .dropzone { border:2px dashed var(--teal); border-radius:12px; padding:2rem; text-align:center; color:var(--teal-dark); cursor:pointer; }
+    .dropzone input { display:none; }
+
+    /* Upcoming */
+    .upcoming-row { display:flex; justify-content:space-between; align-items:center; padding:.7rem 0; border-bottom:1px solid #eee; }
+    .upcoming-row:last-child { border:none; }
+
+    @media(max-width:700px) {
+      .cal-cell { min-height:52px; }
+      .cal-name { display:none; }
+    }
   </style>
 </head>
 <body class="admin-page">
   <header class="admin-header">
-    <div class="brand">Tails & Trails — Admin</div>
+    <div class="brand">Tails &amp; Trails — Admin</div>
     <div class="tabs">
-      <button class="tab active" data-tab="calendar">Calendar</button>
+      <button class="tab active" data-tab="overview">Overview</button>
+      <button class="tab" data-tab="calendar">Calendar</button>
       <button class="tab" data-tab="clients">Clients</button>
       <button class="tab" data-tab="bookings">Bookings</button>
       <button class="tab" data-tab="invoices">Invoices</button>
       <button class="tab" data-tab="receipts">Receipts</button>
       <button class="tab" data-tab="media">Media</button>
-      <a href="login.html" class="tab" style="text-decoration:none">Logout</a>
+      <a href="login.html" class="tab">Logout</a>
     </div>
   </header>
 
   <main class="admin-main">
-    <section id="calendar" class="panel active">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
-        <h2 id="cal-month">Calendar</h2>
-        <div>
-          <button class="btn btn-outline" id="prev-month">←</button>
-          <button class="btn btn-outline" id="next-month">→</button>
-        </div>
+
+    <!-- OVERVIEW -->
+    <section id="overview" class="panel active">
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-val" id="stat-clients">–</div><div class="stat-lbl">Total clients</div></div>
+        <div class="stat-card"><div class="stat-val" id="stat-today">–</div><div class="stat-lbl">Today's bookings</div></div>
+        <div class="stat-card"><div class="stat-val" id="stat-week">–</div><div class="stat-lbl">This week's bookings</div></div>
+        <div class="stat-card"><div class="stat-val" id="stat-unpaid">–</div><div class="stat-lbl">Outstanding invoices</div></div>
       </div>
-      <div class="calendar" id="calendar-grid"></div>
+      <div class="card">
+        <h3>Upcoming bookings — next 7 days</h3>
+        <div id="upcoming-list"><p style="color:#888">Loading…</p></div>
+      </div>
     </section>
 
+    <!-- CALENDAR -->
+    <section id="calendar" class="panel">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+          <h2 id="cal-month" style="margin:0">Calendar</h2>
+          <div style="display:flex;gap:.5rem">
+            <button class="btn btn-outline btn-sm" id="prev-month">← Prev</button>
+            <button class="btn btn-outline btn-sm" id="next-month">Next →</button>
+          </div>
+        </div>
+        <div class="cal-week-labels">
+          <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+        </div>
+        <div class="calendar" id="calendar-grid"></div>
+      </div>
+    </section>
+
+    <!-- CLIENTS -->
     <section id="clients" class="panel">
-      <h2>Clients</h2>
-      <form id="client-form" class="form-row" style="margin-bottom:1.5rem">
-        <div><label>Name</label><input type="text" name="name" required /></div>
-        <div><label>Email</label><input type="email" name="email" required /></div>
-        <div><label>Temporary password</label><input type="text" name="password" required /></div>
-        <div><label>Dog name & breed</label><input type="text" name="dog_name" /></div>
-        <div><label>Phone</label><input type="tel" name="phone" /></div>
-        <div style="align-self:end"><button type="submit" class="btn btn-primary">Add client</button></div>
-      </form>
-      <table id="clients-table"><tr><th>Name</th><th>Dog</th><th>Email</th><th>Phone</th><th></th></tr></table>
+      <div class="card">
+        <h2>Add new client</h2>
+        <form id="client-form">
+          <div class="form-row">
+            <div><label>Full name *</label><input type="text" name="name" required placeholder="Jane Smith" /></div>
+            <div><label>Email *</label><input type="email" name="email" required placeholder="jane@email.com" /></div>
+            <div><label>Temporary password *</label><input type="text" name="password" required placeholder="Temp123!" /></div>
+            <div><label>Dog's name</label><input type="text" name="dog_name" placeholder="Luna" /></div>
+            <div><label>Dog's breed</label><input type="text" name="dog_breed" placeholder="Cocker Spaniel" /></div>
+            <div><label>Phone / WhatsApp</label><input type="tel" name="phone" placeholder="+44 7xxx xxxxxx" /></div>
+            <div><label>Address</label><input type="text" name="address" placeholder="12 High Street, Douglas" /></div>
+            <div><label>Notes</label><textarea name="notes" placeholder="Any important notes about this client…"></textarea></div>
+          </div>
+          <button type="submit" class="btn btn-primary" style="margin-top:1rem">Add client</button>
+        </form>
+      </div>
+      <div class="card">
+        <h3>All clients</h3>
+        <table id="clients-table">
+          <tr><th>Name</th><th>Dog</th><th>Breed</th><th>Email</th><th>Phone</th><th>Actions</th></tr>
+        </table>
+      </div>
     </section>
 
+    <!-- BOOKINGS -->
     <section id="bookings" class="panel">
-      <h2>New booking</h2>
-      <form id="booking-form" class="form-row" style="margin-bottom:1.5rem">
-        <div><label>Client</label><select name="client_id" id="booking-client" required></select></div>
-        <div><label>Date</label><input type="date" name="booking_date" required /></div>
-        <div><label>Start</label><input type="time" name="start_time" /></div>
-        <div><label>End</label><input type="time" name="end_time" /></div>
-        <div><label>Service</label>
-          <select name="service" required>
-            <option value="walk">Dog walking</option>
-            <option value="daycare">Day care</option>
-            <option value="feeding">Feeding / home visit</option>
-            <option value="combined">Combined day care & walk</option>
-          </select>
-        </div>
-        <div style="align-self:end"><button type="submit" class="btn btn-primary">Add booking</button></div>
-      </form>
-      <table id="bookings-table"><tr><th>Client</th><th>Dog</th><th>Date</th><th>Time</th><th>Service</th><th></th></tr></table>
+      <div class="card">
+        <h2>New booking</h2>
+        <form id="booking-form">
+          <div class="form-row">
+            <div><label>Client *</label><select name="client_id" id="booking-client" required></select></div>
+            <div><label>Date *</label><input type="date" name="booking_date" required /></div>
+            <div><label>Start time</label><input type="time" name="start_time" /></div>
+            <div><label>End time</label><input type="time" name="end_time" /></div>
+            <div><label>Service *</label>
+              <select name="service" required>
+                <option value="walk">Dog walking</option>
+                <option value="daycare">Day care</option>
+                <option value="feeding">Feeding / home visit</option>
+                <option value="combined">Combined day care &amp; walk</option>
+              </select>
+            </div>
+            <div><label>Notes</label><input type="text" name="notes" placeholder="Any notes…" /></div>
+          </div>
+          <button type="submit" class="btn btn-primary" style="margin-top:1rem">Add booking</button>
+        </form>
+      </div>
+      <div class="card">
+        <h3>All bookings</h3>
+        <table id="bookings-table">
+          <tr><th>Client</th><th>Dog</th><th>Date</th><th>Time</th><th>Service</th><th>Status</th><th>Notes</th><th>Actions</th></tr>
+        </table>
+      </div>
     </section>
 
+    <!-- INVOICES -->
     <section id="invoices" class="panel">
-      <h2>Create invoice</h2>
-      <form id="invoice-form" class="form-row" style="margin-bottom:1.5rem">
-        <div><label>Client</label><select name="client_id" id="invoice-client" required></select></div>
-        <div><label>Amount (£)</label><input type="number" step="0.01" name="amount" required /></div>
-        <div><label>Description</label><input type="text" name="description" /></div>
-        <div><label>Due date</label><input type="date" name="due_date" /></div>
-        <div style="align-self:end"><button type="submit" class="btn btn-primary">Create invoice</button></div>
-      </form>
-      <table id="invoices-table"><tr><th>Client</th><th>Amount</th><th>Description</th><th>Status</th><th></th></tr></table>
-    </section>
-
-    <section id="receipts" class="panel">
-      <h2>Record payment</h2>
-      <form id="receipt-form" class="form-row" style="margin-bottom:1.5rem">
-        <div><label>Client</label><select name="client_id" id="receipt-client" required></select></div>
-        <div><label>Amount (£)</label><input type="number" step="0.01" name="amount" required /></div>
-        <div style="align-self:end"><button type="submit" class="btn btn-primary">Record payment</button></div>
-      </form>
-      <table id="receipts-table"><tr><th>Client</th><th>Amount</th><th>Date</th><th></th></tr></table>
-    </section>
-
-    <section id="media" class="panel">
-      <h2>Upload photos / videos</h2>
-      <form id="media-form" style="margin-bottom:1.5rem">
-        <div class="form-row">
-          <div><label>Client</label><select name="client_id" id="media-client" required></select></div>
-          <div><label>Caption</label><input type="text" name="caption" /></div>
+      <div class="card">
+        <h2>Create invoice</h2>
+        <form id="invoice-form">
+          <div class="form-row">
+            <div><label>Client *</label><select name="client_id" id="invoice-client" required></select></div>
+            <div><label>Amount (£) *</label><input type="number" step="0.01" min="0" name="amount" required placeholder="0.00" /></div>
+            <div><label>Description</label><input type="text" name="description" placeholder="Weekly dog walking – August" /></div>
+            <div><label>Due date</label><input type="date" name="due_date" /></div>
+          </div>
+          <button type="submit" class="btn btn-primary" style="margin-top:1rem">Create invoice</button>
+        </form>
+      </div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.8rem">
+          <h3 style="margin:0">All invoices</h3>
+          <div id="invoices-summary" style="font-size:.9rem;color:#58646e"></div>
         </div>
-        <label class="dropzone" id="dropzone">
-          <input type="file" id="media-files" multiple accept="image/*,video/*" />
-          <div>Click or drag images &amp; videos here</div>
-        </label>
-        <button type="submit" class="btn btn-primary" style="margin-top:1rem">Upload</button>
-      </form>
-      <table id="media-table"><tr><th>Client</th><th>File</th><th>Caption</th><th>Date</th><th></th></tr></table>
+        <table id="invoices-table">
+          <tr><th>Client</th><th>Amount</th><th>Description</th><th>Due</th><th>Status</th><th>Actions</th></tr>
+        </table>
+      </div>
     </section>
+
+    <!-- RECEIPTS -->
+    <section id="receipts" class="panel">
+      <div class="card">
+        <h2>Record payment</h2>
+        <form id="receipt-form">
+          <div class="form-row">
+            <div><label>Client *</label><select name="client_id" id="receipt-client" required></select></div>
+            <div><label>Amount (£) *</label><input type="number" step="0.01" min="0" name="amount" required placeholder="0.00" /></div>
+          </div>
+          <button type="submit" class="btn btn-primary" style="margin-top:1rem">Record payment</button>
+        </form>
+      </div>
+      <div class="card">
+        <h3>Payment history</h3>
+        <table id="receipts-table">
+          <tr><th>Client</th><th>Amount</th><th>Date</th><th>Actions</th></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- MEDIA -->
+    <section id="media" class="panel">
+      <div class="card">
+        <h2>Upload photos &amp; videos</h2>
+        <form id="media-form">
+          <div class="form-row">
+            <div><label>Client *</label><select name="client_id" id="media-client" required></select></div>
+            <div><label>Caption</label><input type="text" name="caption" placeholder="Today's walk at the park!" /></div>
+          </div>
+          <label class="dropzone" id="dropzone" style="margin-top:1rem">
+            <input type="file" id="media-files" multiple accept="image/*,video/*" />
+            <div>Click or drag images &amp; videos here</div>
+          </label>
+          <button type="submit" class="btn btn-primary" style="margin-top:1rem">Upload</button>
+        </form>
+      </div>
+      <div class="card">
+        <h3>All media</h3>
+        <table id="media-table">
+          <tr><th>Client</th><th>File</th><th>Type</th><th>Caption</th><th>Date</th><th>Actions</th></tr>
+        </table>
+      </div>
+    </section>
+
   </main>
 
+  <!-- Day popup -->
   <div class="day-popup" id="day-popup">
     <div class="day-card">
       <h3 id="day-title"></h3>
       <div id="day-content"></div>
-      <button class="btn btn-outline" onclick="document.getElementById('day-popup').classList.remove('active')" style="margin-top:1rem">Close</button>
+      <details style="margin-top:1rem">
+        <summary style="cursor:pointer;font-weight:700;color:var(--teal-dark);font-size:.9rem">+ Add booking for this day</summary>
+        <form id="quick-booking-form" style="margin-top:.8rem">
+          <input type="hidden" name="booking_date" id="qb-date" />
+          <div class="form-row" style="grid-template-columns:1fr 1fr">
+            <div><label>Client</label><select name="client_id" id="qb-client" required></select></div>
+            <div><label>Service</label>
+              <select name="service" required>
+                <option value="walk">Dog walking</option>
+                <option value="daycare">Day care</option>
+                <option value="feeding">Feeding / home visit</option>
+                <option value="combined">Combined &amp; walk</option>
+              </select>
+            </div>
+            <div><label>Start</label><input type="time" name="start_time" /></div>
+            <div><label>End</label><input type="time" name="end_time" /></div>
+          </div>
+          <button type="submit" class="btn btn-primary" style="margin-top:.8rem;width:100%">Add booking</button>
+        </form>
+      </details>
+      <button class="btn btn-outline" onclick="closeDayPopup()" style="margin-top:1rem;width:100%">Close</button>
+    </div>
+  </div>
+
+  <!-- Edit client modal -->
+  <div class="modal-overlay" id="edit-client-modal">
+    <div class="modal-card">
+      <h3>Edit client</h3>
+      <form id="edit-client-form">
+        <input type="hidden" name="id" />
+        <div class="form-row">
+          <div><label>Full name *</label><input type="text" name="name" required /></div>
+          <div><label>Email *</label><input type="email" name="email" required /></div>
+          <div><label>New password <span style="font-weight:400;color:#999">(leave blank to keep)</span></label><input type="text" name="password" /></div>
+          <div><label>Dog's name</label><input type="text" name="dog_name" /></div>
+          <div><label>Dog's breed</label><input type="text" name="dog_breed" /></div>
+          <div><label>Phone / WhatsApp</label><input type="tel" name="phone" /></div>
+          <div><label>Address</label><input type="text" name="address" /></div>
+          <div><label>Notes</label><textarea name="notes"></textarea></div>
+        </div>
+        <div style="display:flex;gap:.8rem;margin-top:1.2rem">
+          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-outline" onclick="closeEditModal()">Cancel</button>
+        </div>
+      </form>
     </div>
   </div>
 
