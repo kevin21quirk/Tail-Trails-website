@@ -1,4 +1,4 @@
-const nodemailer = require('nodemailer');
+const { google } = require('googleapis');
 
 const ALYSSIA_EMAIL = 'Alyssia.k.quirk@gmail.com';
 
@@ -72,42 +72,70 @@ module.exports = async function handler(req, res) {
     return res.status(400).json({ error: 'Please fill in all required fields.' });
   }
 
-  if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) {
-    console.error('Missing GMAIL_USER or GMAIL_APP_PASSWORD env vars');
+  if (!process.env.GMAIL_CLIENT_ID || !process.env.GMAIL_CLIENT_SECRET || !process.env.GMAIL_REFRESH_TOKEN) {
+    console.error('Missing Gmail OAuth2 env vars');
     return res.status(500).json({ error: 'Email not configured. Please call or WhatsApp instead.' });
   }
 
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: process.env.GMAIL_USER,
-      pass: process.env.GMAIL_APP_PASSWORD,
-    },
-  });
+  const oauth2Client = new google.auth.OAuth2(
+    process.env.GMAIL_CLIENT_ID,
+    process.env.GMAIL_CLIENT_SECRET,
+    'https://developers.google.com/oauthplayground'
+  );
+  oauth2Client.setCredentials({ refresh_token: process.env.GMAIL_REFRESH_TOKEN });
 
+  const gmail = google.gmail({ version: 'v1', auth: oauth2Client });
   const fields = { name, dog, email, phone, service, message };
+
+  function buildRaw({ to, from, replyTo, subject, html }) {
+    const lines = [
+      `From: Tails & Trails <${from}>`,
+      `To: ${to}`,
+      `Reply-To: ${replyTo}`,
+      `Subject: ${subject}`,
+      `MIME-Version: 1.0`,
+      `Content-Type: text/html; charset=UTF-8`,
+      ``,
+      html,
+    ];
+    return Buffer.from(lines.join('\r\n'))
+      .toString('base64')
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_')
+      .replace(/=+$/, '');
+  }
 
   try {
     await Promise.all([
-      transporter.sendMail({
-        from: `"Tails & Trails" <${process.env.GMAIL_USER}>`,
-        to: ALYSSIA_EMAIL,
-        replyTo: email,
-        subject: `New enquiry from ${name} – ${dog}`,
-        html: alyssiaEmail(fields),
+      gmail.users.messages.send({
+        userId: 'me',
+        requestBody: {
+          raw: buildRaw({
+            from: ALYSSIA_EMAIL,
+            to: ALYSSIA_EMAIL,
+            replyTo: email,
+            subject: `New enquiry from ${name} – ${dog}`,
+            html: alyssiaEmail(fields),
+          }),
+        },
       }),
-      transporter.sendMail({
-        from: `"Tails & Trails" <${process.env.GMAIL_USER}>`,
-        to: email,
-        replyTo: ALYSSIA_EMAIL,
-        subject: `Thanks for your enquiry – Tails & Trails`,
-        html: clientEmail(fields),
+      gmail.users.messages.send({
+        userId: 'me',
+        requestBody: {
+          raw: buildRaw({
+            from: ALYSSIA_EMAIL,
+            to: email,
+            replyTo: ALYSSIA_EMAIL,
+            subject: `Thanks for your enquiry – Tails & Trails`,
+            html: clientEmail(fields),
+          }),
+        },
       }),
     ]);
 
     return res.status(200).json({ success: true });
   } catch (err) {
-    console.error('Nodemailer error:', err.message);
+    console.error('Gmail API error:', err?.response?.data || err.message);
     return res.status(500).json({ error: 'Could not send your message. Please call or WhatsApp instead.' });
   }
 };
