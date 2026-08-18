@@ -126,6 +126,9 @@ async function loadInvoices() {
         ${i.status === 'unpaid' ? `<button class="btn btn-sm btn-success" onclick="markInvoicePaid('${i.id}')">Mark paid</button>` : ''}
         <button class="btn btn-sm btn-outline" onclick="editInvoice('${i.id}')">Edit</button>
         <button class="btn btn-sm" style="background:#e8f0e6;border:1px solid #b2d4ae;color:#2d5a27" onclick="downloadInvoice('${i.id}')">⬇ PDF</button>
+        ${i.email_sent_at
+          ? `<span style="font-size:.72rem;color:#2d5a27;white-space:nowrap">✉ Sent ${new Date(i.email_sent_at).toLocaleDateString('en-GB',{day:'numeric',month:'short'})}</span>`
+          : `<button class="btn btn-sm" style="background:#e3f2fd;border:1px solid #90caf9;color:#1565c0" onclick="sendInvoiceEmail('${i.id}')">✉ Email</button>`}
         <button class="btn btn-sm btn-danger" onclick="deleteInvoice('${i.id}')">Delete</button>
       </td>
     </tr>`;
@@ -144,6 +147,9 @@ async function loadReceipts() {
       <td>${new Date(r.created_at).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' })}</td>
       <td class="act">
         <button class="btn btn-sm" style="background:#e8f0e6;border:1px solid #b2d4ae;color:#2d5a27" onclick="downloadReceipt('${r.id}')">⬇ PDF</button>
+        ${r.email_sent_at
+          ? `<span style="font-size:.72rem;color:#2d5a27;white-space:nowrap">✉ Sent ${new Date(r.email_sent_at).toLocaleDateString('en-GB',{day:'numeric',month:'short'})}</span>`
+          : `<button class="btn btn-sm" style="background:#e3f2fd;border:1px solid #90caf9;color:#1565c0" onclick="sendReceiptEmail('${r.id}')">✉ Email</button>`}
         <button class="btn btn-sm btn-danger" onclick="deleteReceipt('${r.id}')">Delete</button>
       </td>
     </tr>`;
@@ -231,6 +237,22 @@ window.editInvoice = (id) => {
 
 window.downloadInvoice = (id) => { window.open('/api/admin/invoice-download?id=' + id, '_blank'); };
 window.downloadReceipt = (id) => { window.open('/api/admin/receipt-download?id=' + id, '_blank'); };
+
+window.sendInvoiceEmail = async (id) => {
+  if (!confirm('Send invoice email to the client?')) return;
+  try {
+    await api('/api/admin/send-invoice', 'POST', { id });
+    await loadInvoices();
+  } catch (err) { alert('Could not send email: ' + err.message); }
+};
+
+window.sendReceiptEmail = async (id) => {
+  if (!confirm('Send receipt email to the client?')) return;
+  try {
+    await api('/api/admin/send-receipt', 'POST', { id });
+    await loadReceipts();
+  } catch (err) { alert('Could not send email: ' + err.message); }
+};
 
 window.editClient = (id) => {
   const c = allClients.find(x => x.id === id);
