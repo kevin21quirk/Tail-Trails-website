@@ -1,6 +1,7 @@
 const { sql } = require('../../lib/db');
 const { requireAuth } = require('../../lib/auth');
 const { sendMail } = require('../../lib/gmail');
+const { generateInvoicePdf } = require('../../lib/pdf');
 
 function cors(res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -75,10 +76,15 @@ module.exports = async function handler(req, res) {
     if (!inv) return res.status(404).json({ error: 'Invoice not found.' });
 
     const num = '#' + padNum(inv.invoice_number);
+    const pdfBuffer = await generateInvoicePdf(inv);
     await sendMail({
       to: inv.client_email,
       subject: `Invoice ${num} \u2013 Tails & Trails`,
       html: invoiceHtml({ inv }),
+      attachment: {
+        filename: `invoice-${padNum(inv.invoice_number)}.pdf`,
+        data: pdfBuffer,
+      },
     });
 
     await sql`UPDATE invoices SET email_sent_at = NOW() WHERE id = ${id}`;

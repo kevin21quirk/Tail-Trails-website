@@ -1,6 +1,7 @@
 const { sql } = require('../../lib/db');
 const { requireAuth } = require('../../lib/auth');
 const { sendMail } = require('../../lib/gmail');
+const { generateReceiptPdf } = require('../../lib/pdf');
 
 function cors(res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -75,10 +76,15 @@ module.exports = async function handler(req, res) {
     if (!rec) return res.status(404).json({ error: 'Receipt not found.' });
 
     const num = rec.invoice_number ? '#' + padNum(rec.invoice_number) : 'Receipt';
+    const pdfBuffer = await generateReceiptPdf(rec);
     await sendMail({
       to: rec.client_email,
       subject: `Payment Receipt ${num} \u2013 Tails & Trails`,
       html: receiptHtml({ rec }),
+      attachment: {
+        filename: `receipt-${padNum(rec.invoice_number || 0)}.pdf`,
+        data: pdfBuffer,
+      },
     });
 
     await sql`UPDATE receipts SET email_sent_at = NOW() WHERE id = ${id}`;
