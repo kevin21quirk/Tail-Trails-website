@@ -9,10 +9,25 @@
   <link rel="stylesheet" href="assets/main.css" />
   <style>
     .portal-page { min-height: 100vh; background: var(--sand); }
-    .portal-header { display: flex; align-items: center; justify-content: space-between; padding: 1.2rem 4vw; background: var(--white); box-shadow: 0 2px 14px rgba(0,0,0,.06); }
-    .portal-header .brand { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--teal-dark); }
-    .portal-header .right { display: flex; align-items: center; gap: 1rem; }
-    .portal-header button { font-size: .85rem; padding: .45rem 1rem; }
+    .portal-header {
+      position: fixed; inset: 0 0 auto 0; z-index: 1000;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 1.5rem; padding: .75rem 5vw;
+      background: rgba(10,18,10,.90);
+      backdrop-filter: blur(22px) saturate(160%);
+      box-shadow: 0 2px 30px rgba(0,0,0,.4), 0 1px 0 rgba(107,142,35,.22);
+    }
+    .portal-header .portal-nav {
+      display: flex; align-items: center; gap: 1rem;
+      padding: .55rem 1.2rem;
+      background: rgba(10,18,10,.62);
+      backdrop-filter: blur(28px) saturate(200%);
+      border: 1px solid rgba(107,142,35,.38);
+      border-radius: 999px;
+      box-shadow: 0 8px 32px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.06);
+    }
+    .portal-header .greeting { color: rgba(255,255,255,.85); font-size: .92rem; white-space: nowrap; }
+    .portal-main { padding-top: 90px; }
     .portal-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; padding: 2rem 4vw 4rem; max-width: 1200px; margin: 0 auto; }
     .portal-card { background: var(--white); border-radius: var(--radius); padding: 1.5rem; box-shadow: var(--shadow); }
     .portal-card h3 { color: var(--teal-dark); margin-bottom: 1rem; font-family: 'Playfair Display', serif; }
@@ -35,11 +50,8 @@
       .portal-card.full { grid-column: span 1; }
     }
     @media (max-width: 600px) {
-      /* Header: stack brand above greeting/logout */
-      .portal-header { flex-wrap: wrap; gap: .4rem; padding: .85rem 4vw; }
-      .portal-header .brand { width: 100%; font-size: 1.1rem; }
-      .portal-header .right { width: 100%; justify-content: space-between; font-size: .88rem; }
-      .portal-header .right .btn { font-size: .78rem; padding: .38rem .85rem; }
+      .portal-header { padding: .55rem 4vw; }
+      .portal-main { padding-top: 78px; }
 
       /* Cards */
       .portal-card { padding: 1rem; border-radius: 16px; }
@@ -60,20 +72,19 @@
     }
     @media (max-width: 400px) {
       .media-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: .5rem; }
-      .portal-header .brand { font-size: 1rem; }
     }
   </style>
 </head>
 <body class="portal-page">
   <header class="portal-header">
-    <div class="brand">Tails & Trails — Client Portal</div>
-    <div class="right">
-      <span id="greeting"></span>
-      <a href="login.html" class="btn btn-outline">Log out</a>
+    <a href="index.html"><img src="Public/logo.png" alt="Tails &amp; Trails" class="header-logo" /></a>
+    <div class="portal-nav">
+      <span class="greeting" id="greeting"></span>
+      <a href="login.html" class="btn btn-outline" style="font-size:.85rem; padding:.4rem 1rem; color:#fff; border-color:rgba(255,255,255,.4)">Log out</a>
     </div>
   </header>
 
-  <main>
+  <main class="portal-main">
     <div class="portal-grid">
       <div class="portal-card full">
         <h3>Upcoming walks & care</h3>
