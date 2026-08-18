@@ -153,6 +153,23 @@ body.home-page .header-logo {
   font-size: .95rem; font-weight: 500;
 }
 
+.header-socials {
+  display: flex; align-items: center; gap: .45rem;
+  padding-left: .9rem; margin-left: .5rem;
+  border-left: 1px solid rgba(255,255,255,.18);
+}
+.header-socials-label {
+  font-size: .65rem; color: rgba(255,255,255,.5); text-transform: uppercase;
+  letter-spacing: .7px; white-space: nowrap; margin-right: .1rem;
+}
+.header-socials a {
+  display: flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.22); color: rgba(255,255,255,.75);
+  transition: border-color .2s, color .2s, transform .2s;
+}
+.header-socials a:hover { border-color: var(--mint); color: var(--mint); transform: translateY(-2px); }
+
 .nav-links a {
   position: relative; color: rgba(255,255,255,.80);
   padding: .55rem 1.1rem; border-radius: 100px;
@@ -930,6 +947,7 @@ footer a:hover { color: var(--mint); }
   }
   .nav-links.open { right: 0; }
   .nav-links a { font-size: 1.1rem; padding: .7rem 1.2rem; color: var(--charcoal); }
+  .header-socials { display: none; }
 
   /* Hero – video backgrounds */
   .hero {
