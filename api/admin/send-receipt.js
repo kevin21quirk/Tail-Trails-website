@@ -65,11 +65,14 @@ module.exports = async function handler(req, res) {
 
   try {
     const rows = await sql`
-      SELECT r.*, u.name AS client_name, u.email AS client_email,
-        i.invoice_number, i.description AS invoice_description
+      SELECT r.*,
+        u.name AS client_name, u.email AS client_email, u.address AS client_address,
+        i.invoice_number, i.description AS invoice_description,
+        b.service AS b_service, b.booking_date AS b_date
       FROM receipts r
       JOIN users u ON u.id = r.client_id
       LEFT JOIN invoices i ON i.id = r.invoice_id
+      LEFT JOIN bookings b ON b.id = i.booking_id
       WHERE r.id = ${id}
     `;
     const rec = rows[0];

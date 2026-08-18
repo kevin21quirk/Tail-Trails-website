@@ -67,9 +67,14 @@ module.exports = async function handler(req, res) {
 
   try {
     const rows = await sql`
-      SELECT i.*, u.name AS client_name, u.email AS client_email
+      SELECT i.*,
+        u.name AS client_name, u.email AS client_email,
+        u.phone AS client_phone, u.address AS client_address,
+        b.service AS b_service, b.booking_date AS b_date,
+        b.start_time AS b_start, b.end_time AS b_end
       FROM invoices i
       JOIN users u ON u.id = i.client_id
+      LEFT JOIN bookings b ON b.id = i.booking_id
       WHERE i.id = ${id}
     `;
     const inv = rows[0];
