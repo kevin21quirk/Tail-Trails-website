@@ -25,7 +25,38 @@
     .status { font-size: .75rem; font-weight: 700; text-transform: uppercase; padding: .2rem .6rem; border-radius: 999px; background: #e6efe4; color: var(--teal-dark); }
     .status.unpaid { background: #fbe9e7; color: #c33; }
     .invoice-amount { font-weight: 700; color: var(--teal-dark); }
-    @media (max-width: 760px) { .portal-grid { grid-template-columns: 1fr; } .portal-card.full { grid-column: span 1; } }
+    @media (max-width: 760px) {
+      .portal-grid { grid-template-columns: 1fr; padding: 1rem 4vw 3rem; gap: 1rem; }
+      .portal-card.full { grid-column: span 1; }
+    }
+    @media (max-width: 600px) {
+      /* Header: stack brand above greeting/logout */
+      .portal-header { flex-wrap: wrap; gap: .4rem; padding: .85rem 4vw; }
+      .portal-header .brand { width: 100%; font-size: 1.1rem; }
+      .portal-header .right { width: 100%; justify-content: space-between; font-size: .88rem; }
+      .portal-header .right .btn { font-size: .78rem; padding: .38rem .85rem; }
+
+      /* Cards */
+      .portal-card { padding: 1rem; border-radius: 16px; }
+      .portal-card h3 { font-size: 1.05rem; margin-bottom: .75rem; }
+
+      /* Booking rows: stack details below date */
+      .booking { flex-wrap: wrap; gap: .25rem; padding: .65rem 0; }
+      .booking > div:first-child { width: 100%; }
+      .booking .status { margin-top: .1rem; }
+
+      /* Invoice rows: keep amount visible but tighter */
+      .invoice { flex-wrap: wrap; gap: .25rem; padding: .65rem 0; }
+      .invoice > div:first-child { flex: 1; min-width: 0; }
+      .invoice > div:last-child { flex-shrink: 0; text-align: right; }
+
+      /* Media grid: smaller thumbnails */
+      .media-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: .6rem; }
+    }
+    @media (max-width: 400px) {
+      .media-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: .5rem; }
+      .portal-header .brand { font-size: 1rem; }
+    }
   </style>
 </head>
 <body class="portal-page">

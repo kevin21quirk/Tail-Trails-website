@@ -1152,4 +1152,21 @@ footer a:hover { color: var(--mint); }
   .accordion-item summary { font-size: 1.15rem; padding: 1.1rem 1.4rem; }
   .accordion-body { padding: 0 1.4rem 1.4rem; }
   .video-section { min-height: 50vh; }
+
+  /* Prevent accordion body images from escaping on mobile */
+  .accordion-body img { margin-left: 0; width: 100%; }
+
+  /* Contact form: full-width submit button */
+  form button[type="submit"] { width: 100%; justify-content: center; }
+
+  /* Section padding tighter on tiny screens */
+  section { padding: 2.8rem 4vw; }
+  .section-title { font-size: clamp(1.6rem, 7vw, 2.2rem); }
+
+  /* Footer links don't overflow */
+  footer ul { padding-left: 0; }
+  .footer-inner { gap: 1.5rem; }
+
+  /* Big phone number scales down */
+  .big-phone { font-size: clamp(1.6rem, 7vw, 2.2rem); margin: 1rem 0; }
 }
