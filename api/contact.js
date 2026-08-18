@@ -92,12 +92,14 @@ module.exports = async function handler(req, res) {
       transporter.sendMail({
         from: `"Tails & Trails" <${process.env.GMAIL_USER}>`,
         to: ALYSSIA_EMAIL,
+        replyTo: email,
         subject: `New enquiry from ${name} – ${dog}`,
         html: alyssiaEmail(fields),
       }),
       transporter.sendMail({
         from: `"Tails & Trails" <${process.env.GMAIL_USER}>`,
         to: email,
+        replyTo: ALYSSIA_EMAIL,
         subject: `Thanks for your enquiry – Tails & Trails`,
         html: clientEmail(fields),
       }),
