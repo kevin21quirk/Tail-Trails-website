@@ -181,18 +181,22 @@
 
       // Invoices
       const iList = document.getElementById('invoices-list');
-      iList.innerHTML = data.invoices.length ? data.invoices.map(i => `
+      iList.innerHTML = data.invoices.length ? data.invoices.map(i => {
+        const dateVal = i.due_date || i.created_at;
+        const dateStr = dateVal ? new Date(dateVal).toLocaleDateString('en-GB') : '—';
+        const dateLabel = i.due_date ? 'Due ' + dateStr : dateStr;
+        return `
         <div class="invoice">
           <div>
-            <div style="font-weight:700">${new Date(i.created_at).toLocaleDateString('en-GB')}</div>
+            <div style="font-weight:700">${dateLabel}</div>
             <div style="font-size:.85rem;color:#666">${i.description || 'Invoice'}</div>
           </div>
           <div style="text-align:right">
             <div class="invoice-amount">£${Number(i.amount).toFixed(2)}</div>
             <span class="status ${i.status}">${i.status}</span>
           </div>
-        </div>
-      `).join('') : '<p class="empty">No invoices yet.</p>';
+        </div>`;
+      }).join('') : '<p class="empty">No invoices yet.</p>';
 
       // Receipts
       const rList = document.getElementById('receipts-list');

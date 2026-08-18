@@ -20,7 +20,11 @@ module.exports = async function handler(req, res) {
   try {
     const upcoming = await sql`
       SELECT * FROM bookings
-      WHERE client_id = ${auth.userId} AND booking_date >= CURRENT_DATE
+      WHERE client_id = ${auth.userId}
+        AND (
+          booking_date > CURRENT_DATE
+          OR (booking_date = CURRENT_DATE AND (start_time IS NULL OR start_time > CURRENT_TIME))
+        )
       ORDER BY booking_date, start_time
       LIMIT 5
     `;
@@ -31,7 +35,7 @@ module.exports = async function handler(req, res) {
       LIMIT 6
     `;
     const invoices = await sql`
-      SELECT id, amount, status, due_date, description FROM invoices
+      SELECT id, amount, status, due_date, description, created_at FROM invoices
       WHERE client_id = ${auth.userId}
       ORDER BY created_at DESC
     `;
