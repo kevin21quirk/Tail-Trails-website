@@ -1,5 +1,5 @@
 const bcrypt = require('bcryptjs');
-const { sql } = require('@vercel/postgres');
+const { sql } = require('../lib/db');
 
 const ADMIN_EMAIL = (process.env.ADMIN_EMAIL || 'alyssia.k.quirk@gmail.com').toLowerCase().trim();
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;

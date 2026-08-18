@@ -1,5 +1,5 @@
 const bcrypt = require('bcryptjs');
-const { sql } = require('@vercel/postgres');
+const { sql } = require('../../lib/db');
 const { signToken, setAuthCookie, ADMIN_EMAIL } = require('../../lib/auth');
 
 function corsHeaders(res) {

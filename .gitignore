@@ -1,0 +1,7 @@
+node_modules/
+.env
+.env.local
+*.mp4
+Public/*.mp4
+.DS_Store
+.next/
