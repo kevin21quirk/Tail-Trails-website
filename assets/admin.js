@@ -113,29 +113,42 @@ async function loadInvoices() {
   const unpaidTotal = allInvoices.filter(i => i.status === 'unpaid').reduce((s, i) => s + Number(i.amount), 0);
   const paidTotal = allInvoices.filter(i => i.status === 'paid').reduce((s, i) => s + Number(i.amount), 0);
   $('#invoices-summary').innerHTML = `<span style="color:#c33">Unpaid: £${unpaidTotal.toFixed(2)}</span> &nbsp;·&nbsp; <span style="color:#2d5a27">Paid: £${paidTotal.toFixed(2)}</span>`;
-  const tbody = allInvoices.map(i => `<tr>
-    <td>${i.client_name}</td>
-    <td><strong>£${Number(i.amount).toFixed(2)}</strong></td>
-    <td>${i.description || '—'}</td>
-    <td>${i.due_date ? new Date(toDateStr(i.due_date) + 'T00:00').toLocaleDateString('en-GB', { day:'numeric', month:'short' }) : '—'}</td>
-    <td><span class="badge ${i.status}">${i.status}</span></td>
-    <td class="act">
-      ${i.status === 'unpaid' ? `<button class="btn btn-sm btn-success" onclick="markInvoicePaid('${i.id}')">Mark paid</button>` : ''}
-      <button class="btn btn-sm btn-danger" onclick="deleteInvoice('${i.id}')">Delete</button>
-    </td>
-  </tr>`).join('');
-  $('#invoices-table').innerHTML = '<tr><th>Client</th><th>Amount</th><th>Description</th><th>Due</th><th>Status</th><th>Actions</th></tr>' + tbody;
+  const tbody = allInvoices.map(i => {
+    const num = i.invoice_number ? String(i.invoice_number).padStart(5, '0') : '—';
+    const bkInfo = i.booking_date ? ` <span style="font-size:.78rem;color:#888">(${SERVICE_LABELS[i.booking_service] || i.booking_service} · ${new Date(toDateStr(i.booking_date) + 'T00:00').toLocaleDateString('en-GB', { day:'numeric', month:'short' })})</span>` : '';
+    return `<tr>
+      <td><span style="font-size:.78rem;color:#aaa">#${num}</span><br>${i.client_name}</td>
+      <td><strong>£${Number(i.amount).toFixed(2)}</strong></td>
+      <td>${i.description || '—'}${bkInfo}</td>
+      <td>${i.due_date ? new Date(toDateStr(i.due_date) + 'T00:00').toLocaleDateString('en-GB', { day:'numeric', month:'short' }) : '—'}</td>
+      <td><span class="badge ${i.status}">${i.status}</span></td>
+      <td class="act">
+        ${i.status === 'unpaid' ? `<button class="btn btn-sm btn-success" onclick="markInvoicePaid('${i.id}')">Mark paid</button>` : ''}
+        <button class="btn btn-sm btn-outline" onclick="editInvoice('${i.id}')">Edit</button>
+        <button class="btn btn-sm" style="background:#e8f0e6;border:1px solid #b2d4ae;color:#2d5a27" onclick="downloadInvoice('${i.id}')">⬇ PDF</button>
+        <button class="btn btn-sm btn-danger" onclick="deleteInvoice('${i.id}')">Delete</button>
+      </td>
+    </tr>`;
+  }).join('');
+  $('#invoices-table').innerHTML = '<tr><th>Invoice</th><th>Amount</th><th>Description</th><th>Due</th><th>Status</th><th>Actions</th></tr>' + tbody;
 }
 
 async function loadReceipts() {
   const data = await api('/api/admin/receipts');
-  const tbody = (data.receipts || []).map(r => `<tr>
-    <td>${r.client_name}</td>
-    <td><strong>£${Number(r.amount).toFixed(2)}</strong></td>
-    <td>${new Date(r.created_at).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' })}</td>
-    <td><button class="btn btn-sm btn-danger" onclick="deleteReceipt('${r.id}')">Delete</button></td>
-  </tr>`).join('');
-  $('#receipts-table').innerHTML = '<tr><th>Client</th><th>Amount</th><th>Date</th><th>Actions</th></tr>' + tbody;
+  const tbody = (data.receipts || []).map(r => {
+    const num = r.invoice_number ? String(r.invoice_number).padStart(5, '0') : '—';
+    return `<tr>
+      <td><span style="font-size:.78rem;color:#aaa">#${num}</span><br>${r.client_name}</td>
+      <td><strong>£${Number(r.amount).toFixed(2)}</strong></td>
+      <td>${r.invoice_description || '—'}</td>
+      <td>${new Date(r.created_at).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' })}</td>
+      <td class="act">
+        <button class="btn btn-sm" style="background:#e8f0e6;border:1px solid #b2d4ae;color:#2d5a27" onclick="downloadReceipt('${r.id}')">⬇ PDF</button>
+        <button class="btn btn-sm btn-danger" onclick="deleteReceipt('${r.id}')">Delete</button>
+      </td>
+    </tr>`;
+  }).join('');
+  $('#receipts-table').innerHTML = '<tr><th>Receipt</th><th>Amount</th><th>For</th><th>Date</th><th>Actions</th></tr>' + tbody;
 }
 
 async function loadMedia() {
@@ -200,6 +213,24 @@ function openDay(date) {
 
 window.closeDayPopup = () => { $('#day-popup').classList.remove('active'); };
 window.closeEditModal = () => { $('#edit-client-modal').classList.remove('active'); };
+window.closeEditInvoiceModal = () => { $('#edit-invoice-modal').classList.remove('active'); };
+
+window.editInvoice = (id) => {
+  const inv = allInvoices.find(i => i.id === id);
+  if (!inv) return;
+  const f = $('#edit-invoice-form');
+  f.id.value = inv.id;
+  f.amount.value = inv.amount;
+  f.description.value = inv.description || '';
+  f.due_date.value = inv.due_date ? toDateStr(inv.due_date) : '';
+  const clientBks = allBookings.filter(b => b.client_id === inv.client_id);
+  $('#edit-invoice-booking').innerHTML = '<option value="">None</option>' +
+    clientBks.map(b => `<option value="${b.id}" ${inv.booking_id === b.id ? 'selected' : ''}>${SERVICE_LABELS[b.service] || b.service} &middot; ${new Date(b.booking_date + 'T00:00').toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' })}</option>`).join('');
+  $('#edit-invoice-modal').classList.add('active');
+};
+
+window.downloadInvoice = (id) => { window.open('/api/admin/invoice-download?id=' + id, '_blank'); };
+window.downloadReceipt = (id) => { window.open('/api/admin/receipt-download?id=' + id, '_blank'); };
 
 window.editClient = (id) => {
   const c = allClients.find(x => x.id === id);
@@ -231,10 +262,10 @@ window.setBookingStatus = async (id, status, btn) => {
 window.deleteBooking = async (id) => { if (!confirm('Delete this booking?')) return; await api('/api/admin/bookings', 'DELETE', { id }); loadBookings(); };
 
 window.markInvoicePaid = async (id) => {
-  const inv = allInvoices.find(i => i.id === id);
-  if (!inv) return;
-  await api('/api/admin/invoices', 'PATCH', { id, client_id: inv.client_id, amount: inv.amount, description: inv.description || '', due_date: inv.due_date || null, status: 'paid' });
-  loadInvoices();
+  if (!confirm('Mark this invoice as paid? A receipt will be created automatically.')) return;
+  await api('/api/admin/invoices', 'PATCH', { id, status: 'paid' });
+  await loadInvoices();
+  await loadReceipts();
 };
 
 window.deleteInvoice = async (id) => { if (!confirm('Delete this invoice?')) return; await api('/api/admin/invoices', 'DELETE', { id }); loadInvoices(); };
@@ -291,10 +322,26 @@ async function init() {
     } catch (err) { alert('Error: ' + err.message); }
   });
 
+  $('#invoice-client').addEventListener('change', () => {
+    const clientId = $('#invoice-client').value;
+    const sel = $('#invoice-booking');
+    if (!sel) return;
+    const bks = allBookings.filter(b => b.client_id === clientId && b.status !== 'cancelled');
+    sel.innerHTML = '<option value="">No booking linked</option>' +
+      bks.map(b => `<option value="${b.id}">${SERVICE_LABELS[b.service] || b.service} &middot; ${new Date(b.booking_date + 'T00:00').toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' })}</option>`).join('');
+  });
+
   $('#invoice-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     const body = Object.fromEntries(new FormData(e.target));
-    try { await api('/api/admin/invoices', 'POST', body); e.target.reset(); loadInvoices(); }
+    try { await api('/api/admin/invoices', 'POST', body); e.target.reset(); $('#invoice-booking').innerHTML = '<option value="">Choose client first…</option>'; loadInvoices(); }
+    catch (err) { alert('Error: ' + err.message); }
+  });
+
+  $('#edit-invoice-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const body = Object.fromEntries(new FormData(e.target));
+    try { await api('/api/admin/invoices', 'PATCH', body); closeEditInvoiceModal(); loadInvoices(); }
     catch (err) { alert('Error: ' + err.message); }
   });
 

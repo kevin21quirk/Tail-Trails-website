@@ -19,9 +19,10 @@ module.exports = async function handler(req, res) {
   try {
     if (req.method === 'GET') {
       const rows = await sql`
-        SELECT r.*, u.name AS client_name
+        SELECT r.*, u.name AS client_name, i.invoice_number, i.description AS invoice_description, i.amount AS invoice_amount
         FROM receipts r
         JOIN users u ON u.id = r.client_id
+        LEFT JOIN invoices i ON i.id = r.invoice_id
         ORDER BY r.created_at DESC
       `;
       return res.status(200).json({ receipts: rows });

@@ -207,6 +207,7 @@
             <div><label>Amount (£) *</label><input type="number" step="0.01" min="0" name="amount" required placeholder="0.00" /></div>
             <div><label>Description</label><input type="text" name="description" placeholder="Weekly dog walking – August" /></div>
             <div><label>Due date</label><input type="date" name="due_date" /></div>
+            <div><label>Link to booking <span style="font-weight:400;color:#999">(optional)</span></label><select name="booking_id" id="invoice-booking"><option value="">Choose client first…</option></select></div>
           </div>
           <button type="submit" class="btn btn-primary" style="margin-top:1rem">Create invoice</button>
         </form>
@@ -294,6 +295,26 @@
         </form>
       </details>
       <button class="btn btn-outline" onclick="closeDayPopup()" style="margin-top:1rem;width:100%">Close</button>
+    </div>
+  </div>
+
+  <!-- Edit invoice modal -->
+  <div class="modal-overlay" id="edit-invoice-modal">
+    <div class="modal-card">
+      <h3>Edit invoice</h3>
+      <form id="edit-invoice-form">
+        <input type="hidden" name="id" />
+        <div class="form-row">
+          <div><label>Amount (£) *</label><input type="number" step="0.01" min="0" name="amount" required /></div>
+          <div><label>Description</label><input type="text" name="description" /></div>
+          <div><label>Due date</label><input type="date" name="due_date" /></div>
+          <div><label>Linked booking</label><select name="booking_id" id="edit-invoice-booking"><option value="">None</option></select></div>
+        </div>
+        <div style="display:flex;gap:.8rem;margin-top:1.2rem">
+          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-outline" onclick="closeEditInvoiceModal()">Cancel</button>
+        </div>
+      </form>
     </div>
   </div>
 
