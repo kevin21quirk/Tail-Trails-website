@@ -116,19 +116,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   if (window.lucide) lucide.createIcons();
 
-  // Simple form feedback
-  const form = document.querySelector('form');
-  if (form) {
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const btn = form.querySelector('button[type="submit"]');
-      const original = btn?.textContent;
-      if (btn) { btn.textContent = 'Message sent!'; btn.disabled = true; }
-      form.reset();
-      setTimeout(() => { if (btn) { btn.textContent = original; btn.disabled = false; } }, 2500);
-    });
-  }
-
   // Film roll lightbox
   const filmFrames = document.querySelectorAll('.film-frame');
   if (filmFrames.length) {
