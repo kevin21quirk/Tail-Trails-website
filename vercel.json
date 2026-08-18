@@ -1,0 +1,6 @@
+{
+  "functions": {
+    "api/admin/send-invoice.js": { "maxDuration": 60 },
+    "api/admin/send-receipt.js": { "maxDuration": 60 }
+  }
+}

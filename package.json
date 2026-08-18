@@ -5,7 +5,7 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1107.0",
     "@aws-sdk/s3-request-presigner": "^3.1107.0",
-    "@sparticuz/chromium-min": "^147.0.0",
+    "@sparticuz/chromium-min": "131.0.1",
     "bcryptjs": "^2.4.3",
     "cookie": "^0.6.0",
     "googleapis": "^144.0.0",
@@ -13,6 +13,6 @@
     "nodemailer": "^6.9.16",
     "pdfkit": "^0.15.2",
     "pg": "^8.23.0",
-    "puppeteer-core": "^25.8.0"
+    "puppeteer-core": "22.15.0"
   }
 }
