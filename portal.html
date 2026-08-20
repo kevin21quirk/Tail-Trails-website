@@ -92,6 +92,11 @@
       </div>
 
       <div class="portal-card full">
+        <h3>Previous walks & appointments</h3>
+        <div id="past-list"><p class="empty">Loading…</p></div>
+      </div>
+
+      <div class="portal-card full">
         <h3>Latest photos & videos</h3>
         <div id="media-list" class="media-grid"><p class="empty">Loading…</p></div>
       </div>
@@ -135,7 +140,7 @@
 
       // Bookings
       const bList = document.getElementById('bookings-list');
-      bList.innerHTML = data.upcoming.length ? data.upcoming.map(b => `
+      const fmtBooking = b => `
         <div class="booking">
           <div>
             <strong>${new Date(b.booking_date).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'long' })}</strong>
@@ -143,8 +148,16 @@
             <div style="font-size:.85rem;color:#666">${b.service.replace(/\b\w/g, l => l.toUpperCase())}${b.notes ? ' · ' + b.notes : ''}</div>
           </div>
           <span class="status">${b.status}</span>
-        </div>
-      `).join('') : '<p class="empty">No upcoming bookings yet.</p>';
+        </div>`;
+
+      bList.innerHTML = data.upcoming.length
+        ? data.upcoming.map(fmtBooking).join('')
+        : '<p class="empty">No upcoming bookings.</p>';
+
+      const pList = document.getElementById('past-list');
+      pList.innerHTML = (data.past || []).length
+        ? data.past.map(fmtBooking).join('')
+        : '<p class="empty">No previous bookings yet.</p>';
 
       // Media
       const mediaRes = await fetch('/api/client/media', { credentials: 'include' });

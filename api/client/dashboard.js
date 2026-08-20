@@ -28,6 +28,16 @@ module.exports = async function handler(req, res) {
       ORDER BY booking_date, start_time
       LIMIT 5
     `;
+    const past = await sql`
+      SELECT * FROM bookings
+      WHERE client_id = ${auth.userId}
+        AND (
+          booking_date < CURRENT_DATE
+          OR (booking_date = CURRENT_DATE AND start_time IS NOT NULL AND start_time <= CURRENT_TIME)
+        )
+      ORDER BY booking_date DESC, start_time DESC
+      LIMIT 20
+    `;
     const media = await sql`
       SELECT id, filename, type, caption, created_at FROM media
       WHERE client_id = ${auth.userId}
@@ -44,7 +54,7 @@ module.exports = async function handler(req, res) {
       WHERE client_id = ${auth.userId}
       ORDER BY created_at DESC
     `;
-    return res.status(200).json({ upcoming, media, invoices, receipts });
+    return res.status(200).json({ upcoming, past, media, invoices, receipts });
   } catch (err) {
     console.error('Client dashboard error:', err);
     return res.status(500).json({ error: err.message || 'Server error' });
