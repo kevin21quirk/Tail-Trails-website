@@ -46,7 +46,7 @@ module.exports = async function handler(req, res) {
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Receipt #${numStr} – Tails &amp; Trails</title>
+  <title>Receipt #${numStr} – Tails &amp; Trails by Alyssia</title>
   <style>
     *{box-sizing:border-box;margin:0;padding:0;}
     body{font-family:Arial,Helvetica,sans-serif;font-size:11pt;color:#1a1a1a;background:#e8e8e8;}
@@ -93,9 +93,9 @@ module.exports = async function handler(req, res) {
 <div class="page">
   <div class="hdr">
     <div style="display:flex;align-items:flex-start;gap:14px">
-      <img src="/Public/logo.png" class="logo" alt="Tails &amp; Trails" onerror="this.style.display='none'"/>
+      <img src="/Public/tailsandtrailslogo.png" class="logo" alt="Tails &amp; Trails by Alyssia" onerror="this.style.display='none'"/>
       <div>
-        <div class="co-name">Tails &amp; Trails</div>
+        <div class="co-name">Tails &amp; Trails by Alyssia</div>
         <div class="co-tag">Professional Dog Care</div>
         <div class="co-info">Douglas, Isle of Man<br>Alyssia.k.quirk@gmail.com</div>
       </div>
@@ -148,7 +148,7 @@ module.exports = async function handler(req, res) {
     </tfoot>
   </table>
 
-  <p style="font-size:8pt;color:#bbb;font-style:italic;text-align:right;margin-bottom:26px">VAT not applicable — Tails &amp; Trails is not VAT registered</p>
+  <p style="font-size:8pt;color:#bbb;font-style:italic;text-align:right;margin-bottom:26px">VAT not applicable — Tails &amp; Trails by Alyssia is not VAT registered</p>
 
   <div class="footer">
     <div class="ft-left">
@@ -156,7 +156,7 @@ module.exports = async function handler(req, res) {
       <p>This receipt confirms payment of ${fmtMoney(rec.amount)} has been received.<br>Please keep this for your records.</p>
     </div>
     <div class="ft-right">
-      <p>Tails &amp; Trails<br>Douglas, Isle of Man<br>Alyssia.k.quirk@gmail.com</p>
+      <p>Tails &amp; Trails by Alyssia<br>Douglas, Isle of Man<br>Alyssia.k.quirk@gmail.com</p>
     </div>
   </div>
 </div>
