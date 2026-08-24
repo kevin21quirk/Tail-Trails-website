@@ -106,7 +106,7 @@ module.exports = async function handler(req, res) {
   ${isPaid ? '<div class="paid-stamp">PAID</div>' : ''}
   <div class="hdr">
     <div style="display:flex;align-items:flex-start;gap:14px">
-      <img src="/Public/tailsandtrailslogo.png" class="logo" alt="Tails &amp; Trails by Alyssia" onerror="this.style.display='none'"/>
+      <img src="/Public/tailsandtrailslogo%20(2).png" class="logo" alt="Tails &amp; Trails by Alyssia" onerror="this.style.display='none'"/>
       <div>
         <div class="co-name">Tails &amp; Trails by Alyssia</div>
         <div class="co-tag">Professional Dog Care</div>
