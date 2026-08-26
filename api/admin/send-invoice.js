@@ -24,12 +24,12 @@ function invoiceHtml({ inv }) {
 <html>
 <body style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#333;padding:0">
   <div style="background:#2d5a27;padding:22px 28px;border-radius:10px 10px 0 0;display:flex;justify-content:space-between;align-items:center">
-    <h2 style="color:#fff;margin:0;font-size:1.3rem">\ud83d\udc3e Tails &amp; Trails</h2>
+    <h2 style="color:#fff;margin:0;font-size:1.3rem">\ud83d\udc3e Tracks &amp; Trails</h2>
     <span style="color:#b8d4b5;font-size:.9rem">INVOICE ${num}</span>
   </div>
   <div style="background:#f9f9f7;padding:28px;border-radius:0 0 10px 10px;border:1px solid #e0e0d8;border-top:none">
     <p style="margin:0 0 6px">Hi <strong>${inv.client_name}</strong>,</p>
-    <p style="margin:0 0 22px;color:#666">Please find your invoice details below. Thank you for choosing Tails &amp; Trails!</p>
+    <p style="margin:0 0 22px;color:#666">Please find your invoice details below. Thank you for choosing Tracks &amp; Trails!</p>
 
     <table style="width:100%;border-collapse:collapse;font-size:.93rem;margin-bottom:22px">
       <tr><td style="padding:9px 12px;font-weight:700;color:#2d5a27;width:150px;border-bottom:1px solid #ece9e1">Invoice no.</td><td style="padding:9px 12px;border-bottom:1px solid #ece9e1">${num}</td></tr>
@@ -47,7 +47,7 @@ function invoiceHtml({ inv }) {
     <p style="margin:0 0 6px;font-size:.9rem;color:#555">Please use invoice number <strong>${num}</strong> as your payment reference.</p>
     <p style="margin:20px 0 0;font-size:.85rem;color:#999">Questions? Call or WhatsApp: <a href="tel:+447624354396" style="color:#2d5a27">+44 76 2435 4396</a></p>
     <hr style="border:none;border-top:1px solid #ddd;margin:20px 0 14px">
-    <p style="font-size:.78rem;color:#aaa;margin:0">VAT not applicable &mdash; Tails &amp; Trails is not VAT registered</p>
+    <p style="font-size:.78rem;color:#aaa;margin:0">VAT not applicable &mdash; Tracks &amp; Trails is not VAT registered</p>
   </div>
 </body>
 </html>`;
@@ -84,7 +84,7 @@ module.exports = async function handler(req, res) {
     const pdfBuffer = await generateInvoicePdf(inv);
     await sendMail({
       to: inv.client_email,
-      subject: `Invoice ${num} \u2013 Tails & Trails`,
+      subject: `Invoice ${num} \u2013 Tracks & Trails`,
       html: invoiceHtml({ inv }),
       attachment: {
         filename: `invoice-${padNum(inv.invoice_number)}.pdf`,

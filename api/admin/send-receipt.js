@@ -23,7 +23,7 @@ function receiptHtml({ rec }) {
 <html>
 <body style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#333;padding:0">
   <div style="background:#2d5a27;padding:22px 28px;border-radius:10px 10px 0 0;display:flex;justify-content:space-between;align-items:center">
-    <h2 style="color:#fff;margin:0;font-size:1.3rem">\ud83d\udc3e Tails &amp; Trails</h2>
+    <h2 style="color:#fff;margin:0;font-size:1.3rem">\ud83d\udc3e Tracks &amp; Trails</h2>
     <span style="color:#b8d4b5;font-size:.9rem">RECEIPT ${num}</span>
   </div>
   <div style="background:#f9f9f7;padding:28px;border-radius:0 0 10px 10px;border:1px solid #e0e0d8;border-top:none">
@@ -45,7 +45,7 @@ function receiptHtml({ rec }) {
     <p style="margin:0 0 6px;font-size:.9rem;color:#555">Please keep this receipt for your records.</p>
     <p style="margin:16px 0 0;font-size:.85rem;color:#999">Questions? Call or WhatsApp: <a href="tel:+447624354396" style="color:#2d5a27">+44 76 2435 4396</a></p>
     <hr style="border:none;border-top:1px solid #ddd;margin:20px 0 14px">
-    <p style="font-size:.78rem;color:#aaa;margin:0">VAT not applicable &mdash; Tails &amp; Trails is not VAT registered</p>
+    <p style="font-size:.78rem;color:#aaa;margin:0">VAT not applicable &mdash; Tracks &amp; Trails is not VAT registered</p>
   </div>
 </body>
 </html>`;
@@ -82,7 +82,7 @@ module.exports = async function handler(req, res) {
     const pdfBuffer = await generateReceiptPdf(rec);
     await sendMail({
       to: rec.client_email,
-      subject: `Payment Receipt ${num} \u2013 Tails & Trails`,
+      subject: `Payment Receipt ${num} \u2013 Tracks & Trails`,
       html: receiptHtml({ rec }),
       attachment: {
         filename: `receipt-${padNum(rec.invoice_number || 0)}.pdf`,

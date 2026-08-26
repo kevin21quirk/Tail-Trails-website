@@ -13,7 +13,7 @@ function alyssiaEmail({ name, dog, email, phone, service, message }) {
 <html>
 <body style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#333;padding:0">
   <div style="background:#2d5a27;padding:22px 28px;border-radius:10px 10px 0 0">
-    <h2 style="color:#fff;margin:0;font-size:1.3rem">🐾 New Enquiry — Tails &amp; Trails</h2>
+    <h2 style="color:#fff;margin:0;font-size:1.3rem">🐾 New Enquiry — Tracks &amp; Trails</h2>
   </div>
   <div style="background:#f9f9f7;padding:28px;border-radius:0 0 10px 10px;border:1px solid #e0e0d8;border-top:none">
     <table style="width:100%;border-collapse:collapse;font-size:.95rem">
@@ -25,7 +25,7 @@ function alyssiaEmail({ name, dog, email, phone, service, message }) {
       <tr style="background:#fff"><td style="padding:10px 12px;font-weight:700;color:#2d5a27;vertical-align:top">Message</td><td style="padding:10px 12px">${message ? message.replace(/\n/g, '<br>') : '<em style="color:#aaa">No message provided</em>'}</td></tr>
     </table>
     <hr style="border:none;border-top:1px solid #ddd;margin:24px 0 16px">
-    <p style="font-size:.82rem;color:#999;margin:0">Sent via the Tails &amp; Trails website contact form</p>
+    <p style="font-size:.82rem;color:#999;margin:0">Sent via the Tracks &amp; Trails website contact form</p>
   </div>
 </body>
 </html>`;
@@ -50,7 +50,7 @@ function clientEmail({ name, dog, email, service, message }) {
     </table>
     <p style="margin:24px 0 6px">In the meantime, feel free to call or WhatsApp me on <strong>+44 76 2435 4396</strong>.</p>
     <p style="margin:0 0 24px">Looking forward to meeting you and ${dogFirstName} soon!</p>
-    <p style="margin:0">Alyssia 🐕<br><strong style="color:#2d5a27">Tails &amp; Trails</strong><br>
+    <p style="margin:0">Alyssia 🐕<br><strong style="color:#2d5a27">Tracks &amp; Trails</strong><br>
     <a href="tel:+447624354396" style="color:#2d5a27">+44 76 2435 4396</a></p>
   </div>
 </body>
@@ -80,7 +80,7 @@ module.exports = async function handler(req, res) {
   try {
     await Promise.all([
       sendMail({ to: ALYSSIA_EMAIL, replyTo: email,        subject: `New enquiry from ${name} \u2013 ${dog}`,    html: alyssiaEmail(fields) }),
-      sendMail({ to: email,         replyTo: ALYSSIA_EMAIL, subject: `Thanks for your enquiry \u2013 Tails & Trails`, html: clientEmail(fields) }),
+      sendMail({ to: email,         replyTo: ALYSSIA_EMAIL, subject: `Thanks for your enquiry \u2013 Tracks & Trails`, html: clientEmail(fields) }),
     ]);
     return res.status(200).json({ success: true });
   } catch (err) {

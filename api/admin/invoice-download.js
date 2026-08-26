@@ -55,7 +55,7 @@ module.exports = async function handler(req, res) {
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Invoice #${numStr} – Tails &amp; Trails by Alyssia</title>
+  <title>Invoice #${numStr} – Tracks &amp; Trails by Alyssia</title>
   <style>
     *{box-sizing:border-box;margin:0;padding:0;}
     body{font-family:Arial,Helvetica,sans-serif;font-size:11pt;color:#1a1a1a;background:#e8e8e8;}
@@ -106,9 +106,9 @@ module.exports = async function handler(req, res) {
   ${isPaid ? '<div class="paid-stamp">PAID</div>' : ''}
   <div class="hdr">
     <div style="display:flex;align-items:flex-start;gap:14px">
-      <img src="/Public/tailsandtrailslogo%20(2).png" class="logo" alt="Tails &amp; Trails by Alyssia" onerror="this.style.display='none'"/>
+      <img src="/Public/tracksandtrailslogo.png" class="logo" alt="Tracks &amp; Trails by Alyssia" onerror="this.style.display='none'"/>
       <div>
-        <div class="co-name">Tails &amp; Trails by Alyssia</div>
+        <div class="co-name">Tracks &amp; Trails by Alyssia</div>
         <div class="co-tag">Professional Dog Care</div>
         <div class="co-info">Douglas, Isle of Man<br>Alyssia.k.quirk@gmail.com</div>
       </div>
@@ -154,11 +154,11 @@ module.exports = async function handler(req, res) {
     <div class="tot-row"><span>Subtotal</span><span>${fmtMoney(inv.amount)}</span></div>
     <div class="tot-final"><span>Total</span><span>${fmtMoney(inv.amount)}</span></div>
   </div>
-  <div class="vat-note">VAT not applicable — Tails &amp; Trails by Alyssia is not VAT registered</div>
+  <div class="vat-note">VAT not applicable — Tracks &amp; Trails by Alyssia is not VAT registered</div>
 
   <div class="footer">
     <div class="ft-left">
-      <div class="ty">Thank you for choosing Tails &amp; Trails by Alyssia! 🐾</div>
+      <div class="ty">Thank you for choosing Tracks &amp; Trails by Alyssia! 🐾</div>
       <p>Please make payment by bank transfer by the due date shown above.<br>Use payment reference: <strong>Invoice #${numStr}</strong></p>
     </div>
     <div class="ft-right">
