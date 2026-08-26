@@ -1188,3 +1188,35 @@ footer a:hover { color: var(--mint); }
   /* Big phone number scales down */
   .big-phone { font-size: clamp(1.6rem, 7vw, 2.2rem); margin: 1rem 0; }
 }
+
+/* ── Logo shine sweep ───────────────────────────────────────── */
+.logo-shine-wrap {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  border-radius: 6px;
+}
+
+.logo-shine-wrap::after {
+  content: '';
+  position: absolute;
+  top: -10%;
+  left: -80%;
+  width: 55%;
+  height: 120%;
+  background: linear-gradient(
+    110deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.72) 50%,
+    transparent 80%
+  );
+  transform: skewX(-15deg);
+  animation: logoShineSweep 0.85s cubic-bezier(.4, 0, .2, 1) var(--shine-delay, 0.4s) both;
+  pointer-events: none;
+}
+
+@keyframes logoShineSweep {
+  0%   { left: -80%; }
+  100% { left: 135%; }
+}
+/* ─────────────────────────────────────────────────────────── */
