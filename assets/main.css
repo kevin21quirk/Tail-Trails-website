@@ -121,9 +121,11 @@ header .logo {
 }
 
 body.home-page .header-logo {
-  animation:
-    logoEntrance 4.4s cubic-bezier(.22,1,.36,1) both,
-    logoGlow 3s ease-in-out 4.4s infinite alternate;
+  animation: logoGlow 3s ease-in-out 4.4s infinite alternate;
+}
+
+body.home-page .logo-shine-wrap {
+  animation: logoEntrance 4.4s cubic-bezier(.22,1,.36,1) both;
 }
 
 @keyframes logoEntrance {
