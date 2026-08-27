@@ -31,17 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   // ─────────────────────────────────────────────────────────────────
 
-  // ── Logo shine sweep ────────────────────────────────────────
-  document.querySelectorAll('.header-logo').forEach(img => {
-    const wrap = document.createElement('span');
-    wrap.className = 'logo-shine-wrap';
-    // Home page: shine fires after logoEntrance settles (4.4 s); other pages: 0.4 s
-    wrap.style.setProperty('--shine-delay', isHome ? '4.5s' : '0.4s');
-    img.parentNode.insertBefore(wrap, img);
-    wrap.appendChild(img);
-  });
-  // ────────────────────────────────────────────────────────────
-
   // Icons
   if (window.lucide) lucide.createIcons();
 
